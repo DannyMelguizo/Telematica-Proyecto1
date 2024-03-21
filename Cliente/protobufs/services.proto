@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package services;
+
+message NameFile {
+    string name = 1;
+}
+
+message Nodes {
+    repeated string nodes = 1;
+}
+
+message UploadFile {
+    string name = 1;
+    int32 size = 2;
+}
+
+message NodesToSend {
+    int32 blocks = 1;
+    repeated string nodes = 2;
+}
+
+message GetFilesRequest {}
+
+message GetFilesResponse {
+    repeated string files = 1;
+}
+
+service Services {
+    rpc SendNode(NameFile) returns (Nodes) {}
+    rpc ManageFile(UploadFile) returns (NodesToSend) {}
+    rpc GetFiles(GetFilesRequest) returns (GetFilesResponse) {}
+}
+
