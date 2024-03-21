@@ -1,6 +1,7 @@
 import config_file
 import re
 import socket
+import json
 
 def main():
     config_file.create_config_file()
@@ -39,6 +40,9 @@ def send_file(file_name, block):
         "file_name": file_name,
         "block": block
     }
+
+    data = json.dumps(data).encode()
+
 
     connect_to_server(data)
 
