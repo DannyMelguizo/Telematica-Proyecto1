@@ -11,9 +11,8 @@ def main():
     config_file.create_config_file()
     data_files.create_data_file()
 
-    threading.Thread(target=server_grpc()).start()
-
-    print("Welcome to the Server.")
+    grpc_server = threading.Thread(target=server_grpc())
+    grpc_server.start()
 
     ip = config_file.get_ip()
     port = config_file.get_port()
