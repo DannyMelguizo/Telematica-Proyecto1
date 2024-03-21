@@ -11,7 +11,7 @@ def main():
     config_file.create_config_file()
     data_files.create_data_file()
 
-    grpc_server = threading.Thread(target=server_grpc())
+    grpc_server = threading.Thread(target=server_grpc)
     grpc_server.start()
 
     ip = config_file.get_ip()
@@ -19,8 +19,9 @@ def main():
 
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.bind((ip, port))
-    print(f"Server is listening on {ip}:{port}")
     server.listen()
+
+    print(f"Server is listening on {ip}:{port}")
 
     while True:
         client_socket, client_address = server.accept()
