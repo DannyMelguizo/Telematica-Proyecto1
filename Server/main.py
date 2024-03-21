@@ -18,6 +18,7 @@ def main():
 
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.bind((ip, port))
+    print(f"Server is listening on {ip}:{port}")
     server.listen()
 
     while True:
