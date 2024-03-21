@@ -37,8 +37,15 @@ def server_grpc():
     server.wait_for_termination()
 
 def handle_client(client_socket, client_address):
-    print(f"Connection from {client_address} has been established.")
-    print(client_socket)
+    if client_address[0] not in connections:
+        connections.append(client_address[0])
+    
+    while True:
+        data = client_socket.recv(1024).decode()
+
+        if data:
+            print(data)
+        
 
 
 
