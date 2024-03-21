@@ -29,7 +29,7 @@ def connect_to_server(data = None):
     server.connect((ip, port))
 
     if data:
-        server.send(data.encode())
+        server.send(data)
         response = server.recv(1024).decode()
         print(response)
 
