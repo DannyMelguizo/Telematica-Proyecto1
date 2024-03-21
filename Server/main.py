@@ -13,6 +13,8 @@ def main():
 
     threading.Thread(target=server_grpc()).start()
 
+    print("Welcome to the Server.")
+
     ip = config_file.get_ip()
     port = config_file.get_port()
 
