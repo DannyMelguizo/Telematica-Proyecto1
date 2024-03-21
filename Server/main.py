@@ -14,7 +14,7 @@ def main():
     grpc_server = threading.Thread(target=server_grpc)
     grpc_server.start()
 
-    ip = config_file.get_ip()
+    ip = "0.0.0.0"
     port = config_file.get_port()
 
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
