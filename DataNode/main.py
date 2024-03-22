@@ -31,11 +31,12 @@ def connect_to_server(option, data = None):
     server.connect((ip, port))
 
     if option == "save_data":
-        server.send(data.encode())
+        server.send(option.encode())
+        server.send(data)
 
     elif option == "connect":
         
-        server.send(data.encode())
+        server.send(option.encode())
 
         data = server.recv(1024).decode()
         while data == '':
