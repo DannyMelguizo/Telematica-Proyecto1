@@ -23,17 +23,17 @@ def main():
     asign_node("file.txt", 1)
 
 
-def connect_to_server(data):
+def connect_to_server(option, data = None):
     port = config_file.get_port()
     ip = config_file.get_ip()
     
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.connect((ip, port))
 
-    if data == "save_data":
+    if option == "save_data":
         server.send(data.encode())
 
-    elif data == "connect":
+    elif option == "connect":
         
         server.send(data.encode())
 
@@ -81,7 +81,7 @@ def asign_node(file_name, block):
 
     data = json.dumps(data).encode()
 
-    connect_to_server(data)
+    connect_to_server("save_data", data)
 
 def connect_to_node(ip):
     port = config_file.get_port()
