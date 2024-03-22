@@ -46,6 +46,8 @@ def handle_client(client_socket, client_address):
     while data == '':
         data = client_socket.recv(1024).decode()
 
+    print(f"Data received from {client_address[0]}: {data}")
+
     if data == "connect":
         print(f"sending peers to {client_address[0]}")
         if len(connections) == 1:
