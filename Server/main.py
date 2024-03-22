@@ -4,6 +4,7 @@ import socket
 import threading
 from protobufs import services_pb2, services_pb2_grpc
 from concurrent import futures
+import json
 
 connections = []
 
@@ -21,8 +22,6 @@ def main():
     server.bind((ip, port))
     server.listen()
 
-    print(f"Server is listening on {ip}:{port}")
-
     while True:
         client_socket, client_address = server.accept()
         threading.Thread(target=handle_client, args=(client_socket,client_address)).start()
@@ -39,13 +38,29 @@ def server_grpc():
 def handle_client(client_socket, client_address):
     if client_address[0] not in connections:
         connections.append(client_address[0])
-        print(f"Connection from {client_address[0]} has been established")
+        print(f"New DataNode connected: {client_address[0]}")
     
     while True:
         data = client_socket.recv(1024).decode()
 
         if data:
-            print(data)
+            try:
+                data = json.loads(data)     
+                file_name = data['file_name']
+                block = data['block']
+
+                data_files.add_node(file_name, block, client_address[0])
+            except:
+                print("Invalid data received")
+        else:
+            if len(connections) == 1:
+                client_socket.send(b"first")
+            else:
+                first_node = connections[0]
+                penultimate = connections[-2]
+                client_socket.send(f"{first_node},{penultimate}".encode())
+
+
         
 
 

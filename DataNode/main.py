@@ -2,6 +2,9 @@ import config_file
 import re
 import socket
 import json
+import threading
+
+peers = []
 
 def main():
     config_file.create_config_file()
@@ -16,7 +19,7 @@ def main():
     config_file.set_ip(ip)
 
     connect_to_server()
-    send_file("file.txt", 1)
+    asign_node("file.txt", 1)
 
 
 
@@ -30,11 +33,37 @@ def connect_to_server(data = None):
 
     if data:
         server.send(data)
-        response = server.recv(1024).decode()
-        print(response)
+    else:
+        while True:
+            data = server.recv(1024).decode()
+            if data == "first":
+                break
+            else:
+                data = data.split(',')
+                for ip in data:
+                    connect_to_node(ip)
+                break
+    server.close()
 
+def server():
+    port = config_file.get_port()
+    ip = "0.0.0.0"
 
-def send_file(file_name, block):
+    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server.bind((ip, port))
+    server.listen()
+
+    while True:
+        client_socket, client_address = server.accept()
+        threading.Thread(target=hanlded_client, args=(client_address)).start()
+
+def hanlded_client(client_address):
+    if len(peers) == 2:
+        peers[1] = client_address[0]
+    else:
+        peers.append(client_address[0])
+
+def asign_node(file_name, block):
 
     data = {
         "file_name": file_name,
@@ -43,13 +72,15 @@ def send_file(file_name, block):
 
     data = json.dumps(data).encode()
 
-
     connect_to_server(data)
 
-
-
+def connect_to_node(ip):
+    port = config_file.get_port()
+    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server.connect((ip, port))
+    server.close()
+    peers.append(ip)
     
-
 def validate_ip(ip):
     pattern = r'^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
 
