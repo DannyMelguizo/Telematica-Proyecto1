@@ -37,7 +37,7 @@ def connect_to_server(data = None):
     else:
         print("No hay datos, esperando respuesta del servidor")
         data = server.recv(1024).decode()
-        while not data:
+        while data == '':
             data = server.recv(1024).decode()
 
         if data == "first":
