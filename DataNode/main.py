@@ -42,6 +42,7 @@ def connect_to_server(data = None):
             else:
                 data = data.split(',')
                 for ip in data:
+                    print(f'connecting to {ip}')
                     connect_to_node(ip)
                 break
     server.close()
