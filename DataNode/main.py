@@ -17,6 +17,7 @@ def main():
         ip = input("Enter a valid IP: ")
     
     config_file.set_ip(ip)
+    threading.Thread(target=server).start()
 
     connect_to_server()
     asign_node("file.txt", 1)
