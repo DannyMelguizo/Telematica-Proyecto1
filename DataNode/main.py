@@ -36,17 +36,18 @@ def connect_to_server(data = None):
         server.send(data)
     else:
         print("No hay datos, esperando respuesta del servidor")
-        while True:
+        data = server.recv(1024).decode()
+        while not data:
             data = server.recv(1024).decode()
-            if data == "first":
-                print("First node")
-                break
-            else:
-                data = data.split(',')
-                print(data)
-                for ip in data:
-                    connect_to_node(ip)
-                break
+
+        if data == "first":
+            print("First node")
+        else:
+            data = data.split(',')
+            print(data)
+            for ip in data:
+                connect_to_node(ip)
+            
     server.close()
 
 def server():
