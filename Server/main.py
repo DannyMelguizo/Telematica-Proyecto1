@@ -23,11 +23,12 @@ def main():
     server.listen()
 
     while True:
-        client_socket, client_address = server.accept()
         try:
+            client_socket, client_address = server.accept()
+        
             threading.Thread(target=handle_client, args=(client_socket,client_address)).start()
         except:
-            client_socket.close()
+            server.close()
 
 
 def server_grpc():
