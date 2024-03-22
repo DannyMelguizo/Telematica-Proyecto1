@@ -21,7 +21,7 @@ def main():
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.bind((ip, port))
     server.listen()
-    
+
     while True:
         client_socket, client_address = server.accept()
     
@@ -44,24 +44,26 @@ def handle_client(client_socket, client_address):
     data = client_socket.recv(1024).decode()
     
     while data == '':
+        data = client_socket.recv(1024).decode()
 
-        if data == "connect":
-            if len(connections) == 1:
-                client_socket.send(b"first")
-            else:
-                first_node = connections[0]
-                penultimate = connections[-2]
-                client_socket.send(f"{first_node},{penultimate}".encode())
-            
-        elif data == "save_data":
-            try:
-                data = json.loads(data)     
-                file_name = data['file_name']
-                block = data['block']
+    if data == "connect":
+        print(f"sending peers to {client_address[0]}")
+        if len(connections) == 1:
+            client_socket.send(b"first")
+        else:
+            first_node = connections[0]
+            penultimate = connections[-2]
+            client_socket.send(f"{first_node},{penultimate}".encode())
+        
+    elif data == "save_data":
+        try:
+            data = json.loads(data)     
+            file_name = data['file_name']
+            block = data['block']
 
-                data_files.add_node(file_name, block, client_address[0])
-            except:
-                print("Invalid data received")
+            data_files.add_node(file_name, block, client_address[0])
+        except:
+            print("Invalid data received")
 
 
 class Services(services_pb2_grpc.ServicesServicer):
