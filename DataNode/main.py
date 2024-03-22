@@ -32,8 +32,11 @@ def connect_to_server(data):
 
     if data == "save_data":
         server.send(data)
-        
+
     elif data == "connect":
+        
+        server.send(data.encode())
+
         data = server.recv(1024).decode()
         while data == '':
             data = server.recv(1024).decode()
