@@ -23,8 +23,6 @@ def main():
     asign_node("file.txt", 1)
 
 
-
-
 def connect_to_server(data = None):
     port = config_file.get_port()
     ip = config_file.get_ip()
