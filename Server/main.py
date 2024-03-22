@@ -58,6 +58,7 @@ def handle_client(client_socket, client_address):
             else:
                 first_node = connections[0]
                 penultimate = connections[-2]
+                print(f"sending peers {first_node} and {penultimate} to {client_address[0]}")
                 client_socket.send(f"{first_node},{penultimate}".encode())
 
 
