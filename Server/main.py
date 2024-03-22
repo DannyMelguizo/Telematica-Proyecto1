@@ -79,7 +79,7 @@ def handle_client(client_socket, client_address):
 
         print(f"Data received: {file_name}, {block}, {client_address[0]}")
 
-        data_files.add_node(file_name, block, client_address[0])
+        data_files.add_node(file_name, client_address[0], block)
 
 
 class Services(services_pb2_grpc.ServicesServicer):
