@@ -37,10 +37,10 @@ def connect_to_server(data = None):
     else:
         while True:
             data = server.recv(1024).decode()
+            print(data)
             if data == "first":
                 break
             else:
-                print('connecting to peers')
                 data = data.split(',')
                 print(data)
                 for ip in data:
