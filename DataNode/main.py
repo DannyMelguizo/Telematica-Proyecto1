@@ -63,9 +63,9 @@ def server():
 
     while True:
         client_socket, client_address = server.accept()
-        threading.Thread(target=hanlded_client, args=(client_socket, client_address)).start()
+        threading.Thread(target=handle_client, args=(client_socket, client_address)).start()
 
-def hanlded_client(client_socket, client_address):
+def handle_client(client_socket, client_address):
     if len(peers) == 2:
         peers[1] = client_address[0]
     else:
