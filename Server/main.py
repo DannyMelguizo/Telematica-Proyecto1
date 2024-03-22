@@ -62,16 +62,24 @@ def handle_client(client_socket, client_address):
         data = client_socket.recv(1024).decode()
         while data == '':
             data = client_socket.recv(1024).decode()
-        try:
-            data = json.loads(data)     
-            file_name = data['file_name']
-            block = data['block']
+        # try:
+        #     data = json.loads(data)     
+        #     file_name = data['file_name']
+        #     block = data['block']
 
-            print(f"Data received: {file_name}, {block}, {client_address[0]}")
+        #     print(f"Data received: {file_name}, {block}, {client_address[0]}")
 
-            data_files.add_node(file_name, block, client_address[0])
-        except:
-            print("Invalid data received")
+        #     data_files.add_node(file_name, block, client_address[0])
+        # except:
+        #     print("Invalid data received")
+            
+        data = json.loads(data)     
+        file_name = data['file_name']
+        block = data['block']
+
+        print(f"Data received: {file_name}, {block}, {client_address[0]}")
+
+        data_files.add_node(file_name, block, client_address[0])
 
 
 class Services(services_pb2_grpc.ServicesServicer):
