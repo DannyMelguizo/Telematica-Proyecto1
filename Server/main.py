@@ -24,7 +24,10 @@ def main():
 
     while True:
         client_socket, client_address = server.accept()
-        threading.Thread(target=handle_client, args=(client_socket,client_address)).start()
+        try:
+            threading.Thread(target=handle_client, args=(client_socket,client_address)).start()
+        except:
+            client_socket.close()
 
 
 def server_grpc():
