@@ -40,9 +40,10 @@ def connect_to_server(data = None):
             if data == "first":
                 break
             else:
+                print('connecting to peers')
                 data = data.split(',')
+                print(data)
                 for ip in data:
-                    print(f'connecting to {ip}')
                     connect_to_node(ip)
                 break
     server.close()
