@@ -43,7 +43,9 @@ def handle_client(client_socket, client_address):
     while True:
         data = client_socket.recv(1024).decode()
 
+        print("szs")
         if data:
+            print("detecta datos")
             try:
                 data = json.loads(data)     
                 file_name = data['file_name']
@@ -53,8 +55,6 @@ def handle_client(client_socket, client_address):
             except:
                 print("Invalid data received")
         else:
-            print(f"sending peers {client_address[0]}")
-
             if len(connections) == 1:
                 client_socket.send(b"first")
             else:
