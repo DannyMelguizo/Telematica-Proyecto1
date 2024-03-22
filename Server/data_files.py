@@ -35,7 +35,7 @@ def get_files():
 def add_node(name, node, block):
     data = open_data_file()
 
-    if data['files'][name]['nodes'][block] == None:
+    if data['files'][name]['nodes'] == []:
         data['files'][name]['nodes'][block] = [node]
     else:
         data['files'][name]['nodes'][block].append(node)
