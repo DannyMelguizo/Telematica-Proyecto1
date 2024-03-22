@@ -40,12 +40,12 @@ def handle_client(client_socket, client_address):
         connections.append(client_address[0])
         print(f"New DataNode connected: {client_address[0]}")
     
+    print(f"Sending data to {client_address[0]}")
+    
     while True:
-        data = client_socket.recv(1024)
-
-        print("szs")
+        data = client_socket.recv(1024).decode()
+        print(data)
         if data:
-            print("detecta datos")
             try:
                 data = json.loads(data)     
                 file_name = data['file_name']
@@ -62,12 +62,6 @@ def handle_client(client_socket, client_address):
                 penultimate = connections[-2]
                 client_socket.send(f"{first_node},{penultimate}".encode())
 
-
-        
-
-
-
-    
 
 class Services(services_pb2_grpc.ServicesServicer):
     def SendNode(self, request, context):

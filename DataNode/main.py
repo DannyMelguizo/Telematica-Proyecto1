@@ -35,10 +35,11 @@ def connect_to_server(data = None):
     if data:
         server.send(data)
     else:
+        print("No hay datos, esperando respuesta del servidor")
         while True:
             data = server.recv(1024).decode()
-            print(data)
             if data == "first":
+                print("First node")
                 break
             else:
                 data = data.split(',')
@@ -55,6 +56,7 @@ def server():
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.bind((ip, port))
     server.listen()
+    print(f"Server running on {ip}:{port}")
 
     while True:
         client_socket, client_address = server.accept()
