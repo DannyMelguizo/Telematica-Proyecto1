@@ -32,7 +32,11 @@ def connect_to_server(option, data = None):
 
     if option == "save_data":
         server.send(option.encode())
+        data_confirm = server.recv(1024).decode()
+        while data_confirm != 'Ok':
+            data_confirm = server.recv(1024).decode()
         server.send(data)
+
 
     elif option == "connect":
         

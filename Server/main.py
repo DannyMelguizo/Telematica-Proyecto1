@@ -58,6 +58,7 @@ def handle_client(client_socket, client_address):
             client_socket.send(f"{first_node},{penultimate}".encode())
         
     elif data == "save_data":
+        client_socket.send(b'Ok')
         data = client_socket.recv(1024).decode()
         while data == '':
             data = client_socket.recv(1024).decode()
