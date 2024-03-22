@@ -21,14 +21,13 @@ def main():
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.bind((ip, port))
     server.listen()
-
-    while True:
-        try:
+    try:
+        while True:
             client_socket, client_address = server.accept()
         
             threading.Thread(target=handle_client, args=(client_socket,client_address)).start()
-        except:
-            server.close()
+    except KeyboardInterrupt:
+        server.close()
 
 
 def server_grpc():
