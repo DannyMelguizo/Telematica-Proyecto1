@@ -51,10 +51,11 @@ def handle_client(client_socket, client_address):
                 block = data['block']
 
                 data_files.add_node(file_name, block, client_address[0])
+                print("No hay datos, enviando peer al DataNode")
+                
             except:
                 print("Invalid data received")
         else:
-            print("No hay datos, enviando peer al DataNode")
             if len(connections) == 1:
                 client_socket.send(b"first")
             else:
