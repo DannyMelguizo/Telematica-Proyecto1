@@ -31,7 +31,7 @@ def connect_to_server(data):
     server.connect((ip, port))
 
     if data == "save_data":
-        server.send(data)
+        server.send(data.encode())
 
     elif data == "connect":
         

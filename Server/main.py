@@ -63,6 +63,8 @@ def handle_client(client_socket, client_address):
             file_name = data['file_name']
             block = data['block']
 
+            print(f"Data received: {file_name}, {block}, {client_address[0]}")
+
             data_files.add_node(file_name, block, client_address[0])
         except:
             print("Invalid data received")
