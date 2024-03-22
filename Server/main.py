@@ -41,7 +41,7 @@ def handle_client(client_socket, client_address):
         print(f"New DataNode connected: {client_address[0]}")
     
     while True:
-        data = client_socket.recv(1024).decode()
+        data = client_socket.recv(1024)
 
         print("szs")
         if data:
