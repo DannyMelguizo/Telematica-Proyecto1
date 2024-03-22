@@ -19,21 +19,21 @@ def main():
     config_file.set_ip(ip)
     threading.Thread(target=server).start()
 
-    connect_to_server()
+    connect_to_server("connect")
     asign_node("file.txt", 1)
 
 
-def connect_to_server(data = None):
+def connect_to_server(data):
     port = config_file.get_port()
     ip = config_file.get_ip()
     
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.connect((ip, port))
 
-    if data:
+    if data == "save_data":
         server.send(data)
-    else:
-        print("No hay datos, esperando respuesta del servidor")
+        
+    elif data == "connect":
         data = server.recv(1024).decode()
         while data == '':
             data = server.recv(1024).decode()

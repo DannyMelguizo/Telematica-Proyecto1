@@ -21,13 +21,11 @@ def main():
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.bind((ip, port))
     server.listen()
-    try:
-        while True:
-            client_socket, client_address = server.accept()
-        
-            threading.Thread(target=handle_client, args=(client_socket,client_address)).start()
-    except KeyboardInterrupt:
-        server.close()
+    
+    while True:
+        client_socket, client_address = server.accept()
+    
+        threading.Thread(target=handle_client, args=(client_socket,client_address)).start()
 
 
 def server_grpc():
@@ -43,12 +41,11 @@ def handle_client(client_socket, client_address):
         connections.append(client_address[0])
         print(f"New DataNode connected: {client_address[0]}")
     
-    print(f"Sending data to {client_address[0]}")
+    data = client_socket.recv(1024).decode()
     
-    while True:
-        data = client_socket.recv(1024).decode()
+    while data == '':
 
-        if data == '':
+        if data == "connect":
             if len(connections) == 1:
                 client_socket.send(b"first")
             else:
@@ -56,7 +53,7 @@ def handle_client(client_socket, client_address):
                 penultimate = connections[-2]
                 client_socket.send(f"{first_node},{penultimate}".encode())
             
-        else:
+        elif data == "save_data":
             try:
                 data = json.loads(data)     
                 file_name = data['file_name']
