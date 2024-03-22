@@ -44,7 +44,6 @@ def handle_client(client_socket, client_address):
     
     while True:
         data = client_socket.recv(1024).decode()
-        print(data)
         if data:
             try:
                 data = json.loads(data)     
@@ -55,6 +54,7 @@ def handle_client(client_socket, client_address):
             except:
                 print("Invalid data received")
         else:
+            print("No hay datos, enviando peer al DataNode")
             if len(connections) == 1:
                 client_socket.send(b"first")
             else:
