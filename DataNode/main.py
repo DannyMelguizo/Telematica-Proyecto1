@@ -55,13 +55,15 @@ def server():
 
     while True:
         client_socket, client_address = server.accept()
-        threading.Thread(target=hanlded_client, args=(client_address)).start()
+        threading.Thread(target=hanlded_client, args=(client_socket, client_address)).start()
 
-def hanlded_client(client_address):
+def hanlded_client(client_socket, client_address):
     if len(peers) == 2:
         peers[1] = client_address[0]
     else:
         peers.append(client_address[0])
+    print(peers)
+    client_socket.close()
 
 def asign_node(file_name, block):
 
