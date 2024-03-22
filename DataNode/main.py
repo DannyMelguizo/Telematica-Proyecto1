@@ -20,7 +20,7 @@ def main():
     threading.Thread(target=server).start()
 
     connect_to_server("connect")
-    asign_node("file.txt", 1)
+    asign_node("Aerosmith - Dream On.mp3", 1)
 
 
 def connect_to_server(option, data = None):
@@ -46,9 +46,7 @@ def connect_to_server(option, data = None):
         while data == '':
             data = server.recv(1024).decode()
 
-        if data == "first":
-            print("First node")
-        else:
+        if data != "first":
             data = data.split(',')
             print(data)
             for ip in data:

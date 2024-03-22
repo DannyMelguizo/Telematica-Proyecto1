@@ -35,10 +35,10 @@ def get_files():
 def add_node(name, node, block):
     data = open_data_file()
 
-    if data['files'][name]['nodes'] == {}:
-        data['files'][name]['nodes'][block] = [node]
-    else:
+    if block in data['files'][name]['nodes']:
         data['files'][name]['nodes'][block].append(node)
+    else:
+        data['files'][name]['nodes'][block] = [node]
 
     with open('data.json', 'w') as file:
         json.dump(data, file)
