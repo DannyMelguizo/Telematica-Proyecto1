@@ -53,12 +53,13 @@ def handle_client(client_socket, client_address):
             except:
                 print("Invalid data received")
         else:
+            print(f"sending peers {client_address[0]}")
+
             if len(connections) == 1:
                 client_socket.send(b"first")
             else:
                 first_node = connections[0]
                 penultimate = connections[-2]
-                print(f"sending peers {first_node} and {penultimate} to {client_address[0]}")
                 client_socket.send(f"{first_node},{penultimate}".encode())
 
 
