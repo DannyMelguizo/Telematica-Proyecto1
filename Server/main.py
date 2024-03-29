@@ -62,31 +62,24 @@ def handle_client(client_socket, client_address):
         data = client_socket.recv(1024).decode()
         while data == '':
             data = client_socket.recv(1024).decode()
-        # try:
-        #     data = json.loads(data)     
-        #     file_name = data['file_name']
-        #     block = data['block']
 
-        #     print(f"Data received: {file_name}, {block}, {client_address[0]}")
+        try:
+            data = json.loads(data)     
+            file_name = data['file_name']
+            block = data['block']
 
-        #     data_files.add_node(file_name, block, client_address[0])
-        # except:
-        #     print("Invalid data received")
-            
-        data = json.loads(data)     
-        file_name = data['file_name']
-        block = data['block']
+            print(f"Data received: {file_name}, {block}, {client_address[0]}")
 
-        print(f"Data received: {file_name}, {block}, {client_address[0]}")
-
-        data_files.add_node(file_name, client_address[0], block)
+            data_files.add_node(file_name, block, client_address[0])
+        except:
+            print("Invalid data received")
 
 
 class Services(services_pb2_grpc.ServicesServicer):
     def SendNode(self, request, context):
         name = request.name
 
-        nodes = ['szs', 'szs2', 'szs3']
+        nodes = data_files.get_nodes(name)
         print(f"File {name} requested")
 
         return services_pb2.Nodes(nodes=nodes)
@@ -94,7 +87,7 @@ class Services(services_pb2_grpc.ServicesServicer):
     def ManageFile(self, request, context):
         size = request.size
         name = request.name
-        nodes = ['szs', 'szs2', 'szs3']
+        nodes = connections
         block_size = 256*1024 # 256KB
 
         blocks = (size + block_size - 1) // block_size

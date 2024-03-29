@@ -42,3 +42,8 @@ def add_node(name, node, block):
 
     with open('data.json', 'w') as file:
         json.dump(data, file)
+
+def get_nodes(name):
+    data = open_data_file()
+
+    return data['files'][name]['nodes']
