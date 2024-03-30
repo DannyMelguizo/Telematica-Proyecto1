@@ -1,6 +1,6 @@
 import os
 import grpc
-import config_file
+import config_file, mom_server
 
 from protobufs import services_pb2, services_pb2_grpc
 
@@ -21,7 +21,7 @@ def send_file(name_file, ip):
         nodes = response.nodes
     
     total_blocks = (size_file + block_size - 1) // block_size
-    
+
     with open(file_path, 'rb') as file:
 
         for i in range(total_blocks):
@@ -37,7 +37,15 @@ def send_file(name_file, ip):
 
     # Send File to the given nodes
     print(f"Sending file {name_file} to nodes {nodes}")
+    current = 1
+    for node in nodes:
+        current_block = f"{name_file}.{current}"
+        
+        with open(current_block, 'rb') as f:
+            mom_server.send_block(node, f)
 
+        os.remove(current_block)
+        current += 1
 
 def get_file(name_file, ip):
     global port

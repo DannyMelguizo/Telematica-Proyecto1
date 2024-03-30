@@ -5,6 +5,7 @@ import threading
 from protobufs import services_pb2, services_pb2_grpc
 from concurrent import futures
 import json
+import random
 
 connections = []
 
@@ -87,10 +88,19 @@ class Services(services_pb2_grpc.ServicesServicer):
     def ManageFile(self, request, context):
         size = request.size
         name = request.name
-        nodes = connections
         block_size = 256*1024 # 256KB
 
         blocks = (size + block_size - 1) // block_size
+
+        nodes = []
+        n_connections = connections
+        
+        for i in range(blocks):
+            if len(n_connections) == 0:
+                n_connections = connections
+            node = random.choice(n_connections)
+            nodes.append(node)
+            n_connections.remove(node)
 
         print(f"File {name} with size {size} bytes received")
         data_files.add_file(name, size, blocks)
