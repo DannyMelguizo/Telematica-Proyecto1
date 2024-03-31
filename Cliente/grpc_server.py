@@ -86,7 +86,6 @@ def rebuild_file(name_file):
     with open(file_path, 'wb') as f:
         f.write(data_reconstructed)
 
-
 def list_files(ip):
     global port
     with grpc.insecure_channel(f'{ip}:{port}') as channel:
