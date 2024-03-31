@@ -16,7 +16,7 @@ def get_blocks():
     def callback(ch, method, properties, body):
         print(f" [x] Received")
         
-        print(body)
+        body = body.split(b'\n')
 
 
 
