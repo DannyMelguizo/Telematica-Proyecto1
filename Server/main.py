@@ -101,8 +101,6 @@ class Services(services_pb2_grpc.ServicesServicer):
             nodes.append(node)
             nodes_available.remove(node)
 
-        print(nodes)
-
         print(f"File {name} with size {size} bytes received")
         data_files.add_file(name, size, blocks)
 
