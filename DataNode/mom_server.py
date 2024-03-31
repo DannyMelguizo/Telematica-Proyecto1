@@ -25,7 +25,7 @@ def get_blocks():
         block_name = f"{name_file.decode('utf-8')}.{block.decode('utf-8')}"
 
 
-        with open(f"blocks/{block_name}", 'wb') as file:
+        with open(f"blocks/{block_name}", 'rb') as file:
             file.write(body)
 
         main.asign_node(name_file, block)
