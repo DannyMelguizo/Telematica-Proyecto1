@@ -8,6 +8,7 @@ def create_config_file():
     proto_path = 'protobufs/service.proto'
 
     config['config'] = {
+        'ip': ip,
         'ip_server': '',
         'port': '8000',
         'port_grpc': '8001',
@@ -23,7 +24,7 @@ def public_ip():
     ip = requests.get("https://api.ipify.org").text
     return ip
 
-def set_ip(ip):
+def set_ip_server(ip):
     config['config']['ip_server'] = ip
 
     with open('config.conf', 'w') as archivo:
@@ -35,6 +36,9 @@ def get_config():
     return config
 
 def get_ip():
+    return get_config()['config']['ip']
+
+def get_ip_server():
     return get_config()['config']['ip_server']
 
 def get_port_grpc():

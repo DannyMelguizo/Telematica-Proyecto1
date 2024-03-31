@@ -16,7 +16,7 @@ def main():
             break
         ip = input("Enter a valid IP: ")
     
-    config_file.set_ip(ip)
+    config_file.set_ip_server(ip)
     threading.Thread(target=server).start()
 
     connect_to_server("connect")
@@ -25,7 +25,7 @@ def main():
 
 def connect_to_server(option, data = None):
     port = config_file.get_port()
-    ip = config_file.get_ip()
+    ip = config_file.get_ip_server()
     
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.connect((ip, port))
