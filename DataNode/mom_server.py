@@ -27,7 +27,7 @@ def get_blocks():
         with open(block_name, 'wb') as file:
             file.write(body)
         
-        os.replace(block_name, f"blocks/{block_name}")
+        os.replace(block_name, f"/blocks/{block_name}")
 
         main.asign_node(name_file, block)
 
