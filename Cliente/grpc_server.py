@@ -42,7 +42,7 @@ def send_file(name_file, ip):
         current_block = f"{name_file}.{current}"
         
         with open(current_block, 'rb') as f:
-            mom_server.send_block(node, f)
+            mom_server.send_block(node, f.read())
 
         os.remove(current_block)
         current += 1

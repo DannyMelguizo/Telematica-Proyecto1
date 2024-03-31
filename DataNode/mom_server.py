@@ -11,7 +11,7 @@ def get_blocks():
     connection = pika.BlockingConnection(pika.ConnectionParameters(ip, port))
     channel = connection.channel()
 
-    channel.queue_declare(queue=ip)
+    channel.queue_declare(queue='blocks')
 
     def callback(ch, method, properties, body):
         print(f" [x] Received {body}")

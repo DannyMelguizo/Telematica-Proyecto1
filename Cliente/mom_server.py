@@ -25,7 +25,7 @@ def send_block(ip, block):
     connection = pika.BlockingConnection(pika.ConnectionParameters(ip, port))
     channel = connection.channel()
 
-    channel.queue_declare(queue=ip)
+    channel.queue_declare(queue='blocks')
 
     channel.basic_publish(exchange='', routing_key=ip, body=block)
     print(f" [x] Sent block'")
