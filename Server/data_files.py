@@ -32,7 +32,7 @@ def get_files():
 
     return files
 
-def add_node(name, node, block):
+def add_node(name, block, node):
     data = open_data_file()
 
     if block in data['files'][name]['nodes']:

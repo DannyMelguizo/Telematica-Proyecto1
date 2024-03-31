@@ -89,7 +89,7 @@ class Services(services_pb2_grpc.ServicesServicer):
         name = request.name
         block_size = 256*1024 # 256KB
 
-        blocks = (size + block_size - 1) // block_size
+        blocks = (size + block_size - 1) // block_size 
 
         nodes = []
         nodes_available = connections.copy()
