@@ -1,6 +1,7 @@
 import pika
 import config_file, main
 import shutil
+import os
 
 port = config_file.get_port_mom()
 
