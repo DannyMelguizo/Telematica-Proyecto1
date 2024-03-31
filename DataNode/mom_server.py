@@ -20,10 +20,12 @@ def get_blocks():
 
         name_file = body[0]
         blocks = body[2]
-
         block = blocks.split(b'/')[0]
 
-        with open(f"files/{name_file}.{block}", 'wb') as file:
+        block_name = f"{name_file.decode('utf-8')}.{block.decode('utf-8')}"
+
+
+        with open(f"blocks/{block_name}", 'wb') as file:
             file.write(body)
 
         main.asign_node(name_file, block)
