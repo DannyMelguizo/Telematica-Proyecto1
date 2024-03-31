@@ -1,4 +1,4 @@
-import config_file
+import config_file, mom_server
 import re
 import socket
 import json
@@ -20,7 +20,8 @@ def main():
     threading.Thread(target=server).start()
 
     connect_to_server("connect")
-    asign_node("Aerosmith - Dream On.mp3", 1)
+
+    threading.Thread(target=mom_server.get_blocks).start()
 
 
 def connect_to_server(option, data = None):
