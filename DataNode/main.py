@@ -73,7 +73,6 @@ def handle_client(client_socket, client_address):
         peers[1] = client_address[0]
     else:
         peers.append(client_address[0])
-    print(peers)
     client_socket.close()
 
 def asign_node(file_name, block):

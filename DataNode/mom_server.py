@@ -14,7 +14,7 @@ def get_blocks():
     channel.queue_declare(queue='blocks')
 
     def callback(ch, method, properties, body):
-        print(f" [x] Received {body}")
+        print(f" [x] Received")
 
         body = body.decode()
         body = body.split('\n')
