@@ -15,8 +15,10 @@ def get_blocks():
 
     def callback(ch, method, properties, body):
         print(f" [x] Received")
-
+        
         print(body)
+
+
 
     
     channel.basic_consume(queue=ip, on_message_callback=callback, auto_ack=True)
