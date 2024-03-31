@@ -21,7 +21,7 @@ def get_blocks():
         name_file = body[0]
         blocks = body[2]
 
-        block = blocks.split('/')[0]
+        block = blocks.split(b'/')[0]
 
         with open(f"files/{name_file}.{block}", 'wb') as file:
             file.write(body)
