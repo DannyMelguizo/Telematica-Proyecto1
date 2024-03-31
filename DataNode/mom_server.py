@@ -1,5 +1,5 @@
 import pika
-import config_file
+import config_file, main
 import os
 
 port = config_file.get_port_mom()
@@ -19,14 +19,14 @@ def get_blocks():
         body = body.split(b'\n')
 
         name_file = body[0]
-        size_file = body[1]
-        block = body[2]
+        blocks = body[2]
 
-        print(f"Data received {name_file} {size_file} {block}")
+        block = blocks.split('/')[0]
 
+        with open(f"files/{name_file}.{block}", 'wb') as file:
+            file.write(body)
 
-
-
+        main.asign_node(name_file, block)
 
     
     channel.basic_consume(queue=ip, on_message_callback=callback, auto_ack=True)
