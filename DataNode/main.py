@@ -49,7 +49,6 @@ def connect_to_server(option, data = None):
 
         if data != "first":
             data = data.split(',')
-            print(data)
             for ip in data:
                 connect_to_node(ip)
             
