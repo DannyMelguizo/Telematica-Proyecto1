@@ -50,7 +50,6 @@ def handle_client(client_socket, client_address):
     print(f"Data received from {client_address[0]}: {data}")
 
     if data == "connect":
-        print(f"sending peers to {client_address[0]}")
         if len(connections) == 1:
             client_socket.send(b"first")
         else:
@@ -93,14 +92,16 @@ class Services(services_pb2_grpc.ServicesServicer):
         blocks = (size + block_size - 1) // block_size
 
         nodes = []
-        n_connections = connections
+        nodes_available = connections.copy()
         
         for i in range(blocks):
-            if len(n_connections) == 0:
-                n_connections = connections
-            node = random.choice(n_connections)
+            if len(nodes_available) == 0:
+                nodes_available = connections.copy()
+            node = random.choice(nodes_available)
             nodes.append(node)
-            n_connections.remove(node)
+            nodes_available.remove(node)
+
+        print(nodes)
 
         print(f"File {name} with size {size} bytes received")
         data_files.add_file(name, size, blocks)
