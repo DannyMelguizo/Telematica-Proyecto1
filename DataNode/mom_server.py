@@ -33,7 +33,7 @@ def get_blocks():
         
         shutil.move(block_name, 'blocks')
 
-        main.asign_node(name_file, block)
+        main.asign_node(name_file.decode('utf-8'), block.decode('utf-8'))
 
     
     channel.basic_consume(queue=ip, on_message_callback=callback, auto_ack=True)
