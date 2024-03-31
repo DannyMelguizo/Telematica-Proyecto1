@@ -18,6 +18,14 @@ def get_blocks():
         
         body = body.split(b'\n')
 
+        name_file = body[0]
+        size_file = body[1]
+        block = body[2]
+
+        print(f"Data received {name_file} {size_file} {block}")
+
+
+
 
 
     
