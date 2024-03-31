@@ -1,6 +1,6 @@
 import pika
 import config_file, main
-import os
+import shutil
 
 port = config_file.get_port_mom()
 
@@ -30,7 +30,7 @@ def get_blocks():
         with open(block_name, 'wb') as file:
             file.write(body)
         
-        os.replace(block_name, f"/blocks/{block_name}")
+        shutil.move(block_name, 'blocks')
 
         main.asign_node(name_file, block)
 
