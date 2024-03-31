@@ -16,10 +16,10 @@ def get_blocks():
     def callback(ch, method, properties, body):
         print(f" [x] Received")
         
-        body = body.split(b'\n')
+        data = body.split(b'\n')
 
-        name_file = body[0]
-        blocks = body[2]
+        name_file = data[0]
+        blocks = data[2]
         block = blocks.split(b'/')[0]
 
         block_name = f"{name_file.decode('utf-8')}.{block.decode('utf-8')}"
