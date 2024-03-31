@@ -16,7 +16,6 @@ def get_blocks():
     def callback(ch, method, properties, body):
         print(f" [x] Received")
 
-        body = body.decode()
         body = body.split('\n')
         file_name = body[0]
         size = body[1]
