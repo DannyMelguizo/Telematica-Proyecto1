@@ -15,6 +15,9 @@ def get_blocks():
 
     def callback(ch, method, properties, body):
         print(f" [x] Received")
+
+        if not os.path.exists('blocks'):
+            os.makedirs('blocks')
         
         data = body.split(b'\n')
 
