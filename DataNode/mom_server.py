@@ -24,10 +24,10 @@ def get_blocks():
 
         block_name = f"{name_file.decode('utf-8')}.{block.decode('utf-8')}"
 
-        print(f"Block name: {block_name}")
-
-        with open(f"blocks/{block_name}", 'wb') as file:
+        with open(block_name, 'wb') as file:
             file.write(body)
+        
+        os.replace(block_name, f"blocks/{block_name}")
 
         main.asign_node(name_file, block)
 
