@@ -20,8 +20,8 @@ def main():
     threading.Thread(target=server).start()
     connect_to_server("connect")
     
-    threading.Thread(target=grpc_server.server_grpc).start()
     threading.Thread(target=mom_server.get_blocks).start()
+    threading.Thread(target=grpc_server.server_grpc).start()
 
 
 def connect_to_server(option, data = None):
