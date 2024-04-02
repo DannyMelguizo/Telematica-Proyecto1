@@ -31,4 +31,3 @@ service Services {
     rpc ManageFile(UploadFile) returns (NodesToSend) {}
     rpc GetFiles(GetFilesRequest) returns (GetFilesResponse) {}
 }
-
