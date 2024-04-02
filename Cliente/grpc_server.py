@@ -55,10 +55,13 @@ def get_file(name_file, ip):
     with grpc.insecure_channel(f'{ip}:{port}') as channel:
         stub = services_pb2_grpc.ServicesStub(channel)
         response = stub.SendNode(services_pb2.NameFile(name=name_file))
-        keys = response.keys
-        values = response.values
+        decode_keys = response.keys.decode('utf-8')
+        decode_values = response.values.decode('utf-8')
 
-        nodes = json.loads(keys.decode()), json.loads(values.decode())
+        keys = json.loads(decode_keys)
+        values = json.loads(decode_values)
+
+        nodes = dict(zip(keys, values))
     
     print(nodes)
 
