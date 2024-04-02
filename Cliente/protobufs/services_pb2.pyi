@@ -14,8 +14,8 @@ class NameFile(_message.Message):
 class Nodes(_message.Message):
     __slots__ = ("nodes",)
     NODES_FIELD_NUMBER: _ClassVar[int]
-    nodes: str
-    def __init__(self, nodes: _Optional[str] = ...) -> None: ...
+    nodes: bytes
+    def __init__(self, nodes: _Optional[bytes] = ...) -> None: ...
 
 class UploadFile(_message.Message):
     __slots__ = ("name", "size")
