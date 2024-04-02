@@ -83,8 +83,8 @@ class Services(services_pb2_grpc.ServicesServicer):
 
         print(f"File {name} requested")
         print(f"Nodes: {nodes}")
-        
-        return services_pb2.Nodes(nodes=nodes)
+
+        return services_pb2.Nodes(nodes=nodes.values)
 
     def ManageFile(self, request, context):
         size = request.size
