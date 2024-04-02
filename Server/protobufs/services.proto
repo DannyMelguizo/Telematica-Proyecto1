@@ -7,7 +7,7 @@ message NameFile {
 }
 
 message Nodes {
-    repeated string nodes = 1;
+    string nodes = 1;
 }
 
 message UploadFile {

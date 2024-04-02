@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0eservices.proto\x12\x08services\"\x18\n\x08NameFile\x12\x0c\n\x04name\x18\x01 \x01(\t\"\x16\n\x05Nodes\x12\r\n\x05nodes\x18\x01 \x03(\t\"(\n\nUploadFile\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04size\x18\x02 \x01(\x05\",\n\x0bNodesToSend\x12\x0e\n\x06\x62locks\x18\x01 \x01(\x05\x12\r\n\x05nodes\x18\x02 \x03(\t\"\x11\n\x0fGetFilesRequest\"!\n\x10GetFilesResponse\x12\r\n\x05\x66iles\x18\x01 \x03(\t2\xbf\x01\n\x08Services\x12\x31\n\x08SendNode\x12\x12.services.NameFile\x1a\x0f.services.Nodes\"\x00\x12;\n\nManageFile\x12\x14.services.UploadFile\x1a\x15.services.NodesToSend\"\x00\x12\x43\n\x08GetFiles\x12\x19.services.GetFilesRequest\x1a\x1a.services.GetFilesResponse\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0eservices.proto\x12\x08services\"\x18\n\x08NameFile\x12\x0c\n\x04name\x18\x01 \x01(\t\"\x16\n\x05Nodes\x12\r\n\x05nodes\x18\x01 \x01(\t\"(\n\nUploadFile\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04size\x18\x02 \x01(\x05\",\n\x0bNodesToSend\x12\x0e\n\x06\x62locks\x18\x01 \x01(\x05\x12\r\n\x05nodes\x18\x02 \x03(\t\"\x11\n\x0fGetFilesRequest\"!\n\x10GetFilesResponse\x12\r\n\x05\x66iles\x18\x01 \x03(\t2\xbf\x01\n\x08Services\x12\x31\n\x08SendNode\x12\x12.services.NameFile\x1a\x0f.services.Nodes\"\x00\x12;\n\nManageFile\x12\x14.services.UploadFile\x1a\x15.services.NodesToSend\"\x00\x12\x43\n\x08GetFiles\x12\x19.services.GetFilesRequest\x1a\x1a.services.GetFilesResponse\"\x00\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)

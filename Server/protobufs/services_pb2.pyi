@@ -14,8 +14,8 @@ class NameFile(_message.Message):
 class Nodes(_message.Message):
     __slots__ = ("nodes",)
     NODES_FIELD_NUMBER: _ClassVar[int]
-    nodes: _containers.RepeatedScalarFieldContainer[str]
-    def __init__(self, nodes: _Optional[_Iterable[str]] = ...) -> None: ...
+    nodes: str
+    def __init__(self, nodes: _Optional[str] = ...) -> None: ...
 
 class UploadFile(_message.Message):
     __slots__ = ("name", "size")
