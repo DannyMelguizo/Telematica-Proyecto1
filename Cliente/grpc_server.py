@@ -55,9 +55,10 @@ def get_file(name_file, ip):
 
         blocks = response.nodes
 
+    
+    print(blocks)
+
     # Get the blocks
-    for block in blocks:
-        print(f"Getting block {block} from nodes {blocks}")
 
     # Rebuild the file
     rebuild_file(name_file)
