@@ -45,7 +45,7 @@ def send_block(ip, block, file):
     connection = pika.BlockingConnection(pika.ConnectionParameters(ip, port))
     channel = connection.channel()
 
-    channel.queue_declare(queue='blocks')
+    channel.queue_declare(queue='sent_block')
 
     block_name = f"{file}.{block}"
 
