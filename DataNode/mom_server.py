@@ -36,7 +36,7 @@ def get_blocks():
         main.asign_node(name_file.decode('utf-8'), block.decode('utf-8'))
 
     
-    channel.basic_consume(queue=ip, on_message_callback=callback, auto_ack=True)
+    channel.basic_consume(queue='blocks', on_message_callback=callback, auto_ack=True)
     channel.start_consuming()
 
 def send_block(ip, block, file):
@@ -54,7 +54,7 @@ def send_block(ip, block, file):
     with open(f'\\blocks\\{block_name}', 'rb') as file:
         data = file.read()
 
-    channel.basic_publish(exchange='', routing_key='blocks', body=data)
+    channel.basic_publish(exchange='', routing_key='sent_block', body=data)
     print(f" [x] Sent block to {ip}")
 
     connection.close()
