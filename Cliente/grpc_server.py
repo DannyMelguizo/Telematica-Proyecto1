@@ -1,6 +1,7 @@
 import os
 import grpc
 import config_file, mom_server
+import json
 
 from protobufs import services_pb2, services_pb2_grpc
 
@@ -53,7 +54,7 @@ def get_file(name_file, ip):
         stub = services_pb2_grpc.ServicesStub(channel)
         response = stub.SendNode(services_pb2.NameFile(name=name_file))
 
-        nodes = response.nodes
+        nodes = json.loads(response.nodes)
     
         print(f"Nodes: {nodes}")
 
