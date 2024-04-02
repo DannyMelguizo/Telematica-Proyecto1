@@ -1,4 +1,4 @@
-import config_file, mom_server
+import config_file, mom_server, grpc_server
 import re
 import socket
 import json
@@ -18,9 +18,9 @@ def main():
     
     config_file.set_ip_server(ip)
     threading.Thread(target=server).start()
-
     connect_to_server("connect")
-
+    
+    threading.Thread(target=grpc_server.server_grpc).start()
     threading.Thread(target=mom_server.get_blocks).start()
 
 

@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package services;
+
+message GetBlock {
+    string ip = 1;
+    string file = 2;
+    int32 block = 3;
+}
+
+message GetBlockResponse {}
+
+service Services {
+    rpc SendBlock(GetBlock) returns (GetBlockResponse) {}
+}

@@ -38,3 +38,23 @@ def get_blocks():
     
     channel.basic_consume(queue=ip, on_message_callback=callback, auto_ack=True)
     channel.start_consuming()
+
+def send_block(ip, block, file):
+    global port
+
+    connection = pika.BlockingConnection(pika.ConnectionParameters(ip, port))
+    channel = connection.channel()
+
+    channel.queue_declare(queue='blocks')
+
+    block_name = f"{file}.{block}"
+
+    data = b''
+
+    with open(f'\\blocks\\{block_name}', 'rb') as file:
+        data = file.read()
+
+    channel.basic_publish(exchange='', routing_key='blocks', body=data)
+    print(f" [x] Sent block to {ip}")
+
+    connection.close()

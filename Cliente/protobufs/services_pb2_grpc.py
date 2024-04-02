@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-from . import services_pb2 as services__pb2
+import services_pb2 as services__pb2
 
 
 class ServicesStub(object):
@@ -29,6 +29,11 @@ class ServicesStub(object):
                 request_serializer=services__pb2.GetFilesRequest.SerializeToString,
                 response_deserializer=services__pb2.GetFilesResponse.FromString,
                 )
+        self.SendBlock = channel.unary_unary(
+                '/services.Services/SendBlock',
+                request_serializer=services__pb2.GetBlock.SerializeToString,
+                response_deserializer=services__pb2.GetBlockResponse.FromString,
+                )
 
 
 class ServicesServicer(object):
@@ -52,6 +57,12 @@ class ServicesServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def SendBlock(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_ServicesServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -69,6 +80,11 @@ def add_ServicesServicer_to_server(servicer, server):
                     servicer.GetFiles,
                     request_deserializer=services__pb2.GetFilesRequest.FromString,
                     response_serializer=services__pb2.GetFilesResponse.SerializeToString,
+            ),
+            'SendBlock': grpc.unary_unary_rpc_method_handler(
+                    servicer.SendBlock,
+                    request_deserializer=services__pb2.GetBlock.FromString,
+                    response_serializer=services__pb2.GetBlockResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -128,5 +144,22 @@ class Services(object):
         return grpc.experimental.unary_unary(request, target, '/services.Services/GetFiles',
             services__pb2.GetFilesRequest.SerializeToString,
             services__pb2.GetFilesResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def SendBlock(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/services.Services/SendBlock',
+            services__pb2.GetBlock.SerializeToString,
+            services__pb2.GetBlockResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

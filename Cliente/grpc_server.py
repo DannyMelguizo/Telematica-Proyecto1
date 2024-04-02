@@ -59,8 +59,8 @@ def get_file(name_file, ip):
     print(f"The nodes: {nodes} have blocks of the file {name_file}")
 
     # Get the blocks
-    for node in nodes:
-        pass
+    for block in nodes:
+        print(f"Getting block {block} from nodes {nodes[block]}")
 
     # Rebuild the file
     rebuild_file(name_file)
