@@ -56,9 +56,7 @@ def get_file(name_file, ip):
 
         nodes = response.nodes
 
-
-
-    print(f"Nodes: {nodes}")
+        print(f"Nodes: {nodes}")
 
     # Get the blocks
 
