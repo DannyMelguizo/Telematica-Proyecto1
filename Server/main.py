@@ -6,10 +6,21 @@ from protobufs import services_pb2, services_pb2_grpc
 from concurrent import futures
 import json
 import random
+import signal
+import sys
 
 connections = []
 
+
 def main():
+
+    def signal_handler(sig, frame):
+        print("Exiting server")
+        server.close()
+        sys.exit(0)
+
+    signal.signal(signal.SIGINT, signal_handler)
+
     config_file.create_config_file()
     data_files.create_data_file()
 
@@ -83,6 +94,8 @@ class Services(services_pb2_grpc.ServicesServicer):
 
         print(f"File {name} requested")
         print(f"Nodes: {nodes}")
+
+        print(f"{nodes.values}\n{type(nodes.values)}")
 
         return services_pb2.Nodes(nodes=nodes.values)
 
