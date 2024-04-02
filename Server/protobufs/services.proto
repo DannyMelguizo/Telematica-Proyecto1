@@ -1,3 +1,4 @@
+
 syntax = "proto3";
 
 package services;
@@ -26,9 +27,17 @@ message GetFilesResponse {
     repeated string files = 1;
 }
 
+message GetBlock {
+    string ip = 1;
+    string file = 2;
+    int32 block = 3;
+}
+
+message GetBlockResponse {}
+
 service Services {
     rpc SendNode(NameFile) returns (Nodes) {}
     rpc ManageFile(UploadFile) returns (NodesToSend) {}
     rpc GetFiles(GetFilesRequest) returns (GetFilesResponse) {}
+    rpc SendBlock(GetBlock) returns (GetBlockResponse) {}
 }
-
