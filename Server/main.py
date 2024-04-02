@@ -6,22 +6,14 @@ from protobufs import services_pb2, services_pb2_grpc
 from concurrent import futures
 import json
 import random
-import signal
 import sys
 
 connections = []
 
-
 def main():
-
-    def signal_handler(sig, frame):
-        server.close()
-        sys.exit(0)
 
     config_file.create_config_file()
     data_files.create_data_file()
-    
-    signal.signal(signal.SIGINT, signal_handler)
 
     try:
 
@@ -101,10 +93,10 @@ class Services(services_pb2_grpc.ServicesServicer):
         print(f"File {name} requested")
         print(f"Nodes: {nodes}")
 
-        keys = list(nodes.keys())
-        values = bytes(list(nodes.values()))
+        keys = json.dumps(list(nodes.keys()))
+        values = json.dumps(list(nodes.values()))
 
-        return services_pb2.Nodes(nodes=values)
+        return services_pb2.Nodes(nodes=bytes(keys, 'utf-8'))
 
     def ManageFile(self, request, context):
         size = request.size
