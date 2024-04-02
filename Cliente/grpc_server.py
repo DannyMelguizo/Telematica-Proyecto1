@@ -36,7 +36,6 @@ def send_file(name_file, ip):
                 print(f"Block {i+1} of {total_blocks} created")
 
     # Send File to the given nodes
-    print(f"Sending file {name_file} to nodes {nodes}")
     current = 1
     for node in nodes:
         current_block = f"{name_file}.{current}"
