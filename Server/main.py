@@ -15,29 +15,35 @@ connections = []
 def main():
 
     def signal_handler(sig, frame):
-        print("Exiting server")
         server.close()
         sys.exit(0)
 
-    signal.signal(signal.SIGINT, signal_handler)
-
     config_file.create_config_file()
     data_files.create_data_file()
-
-    grpc_server = threading.Thread(target=server_grpc)
-    grpc_server.start()
-
-    ip = "0.0.0.0"
-    port = config_file.get_port()
-
-    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server.bind((ip, port))
-    server.listen()
-
-    while True:
-        client_socket, client_address = server.accept()
     
-        threading.Thread(target=handle_client, args=(client_socket,client_address)).start()
+    signal.signal(signal.SIGINT, signal_handler)
+
+    try:
+
+        grpc_server = threading.Thread(target=server_grpc)
+        grpc_server.start()
+
+        ip = "0.0.0.0"
+        port = config_file.get_port()
+
+        server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        server.bind((ip, port))
+        server.listen()
+
+        while True:
+            client_socket, client_address = server.accept()
+        
+            threading.Thread(target=handle_client, args=(client_socket,client_address)).start()
+
+    except KeyboardInterrupt:
+        print("Exiting server")
+        server.close()
+        sys.exit(0)
 
 
 def server_grpc():
@@ -94,8 +100,6 @@ class Services(services_pb2_grpc.ServicesServicer):
 
         print(f"File {name} requested")
         print(f"Nodes: {nodes}")
-
-        print(f"{nodes.values}\n{type(nodes.values)}")
 
         return services_pb2.Nodes(nodes=nodes.values)
 
