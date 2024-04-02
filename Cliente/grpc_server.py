@@ -57,6 +57,12 @@ def get_file(name_file, ip):
         response = stub.SendNode(services_pb2.NameFile(name=name_file))
         nodes = response.nodes
     
+        try:
+            node = json.loads(response.node)
+        except:
+            print("No se pudo transformar a json")
+
+
     print(f"Nodes: {nodes}")
 
     # Get the blocks
