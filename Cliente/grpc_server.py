@@ -55,12 +55,11 @@ def get_file(name_file, ip):
     with grpc.insecure_channel(f'{ip}:{port}') as channel:
         stub = services_pb2_grpc.ServicesStub(channel)
         response = stub.SendNode(services_pb2.NameFile(name=name_file))
-        nodes = response.nodes
-    
-        try:
-            node = json.loads(response.node)
-        except:
-            print("No se pudo transformar a json")
+        keys = response.keys
+        values = response.values
+
+        for i in range(len(keys)):
+            nodes.append((keys[i], values[i]))
 
 
     print(f"Nodes: {nodes}")

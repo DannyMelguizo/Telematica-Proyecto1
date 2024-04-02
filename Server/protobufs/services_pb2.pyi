@@ -12,10 +12,12 @@ class NameFile(_message.Message):
     def __init__(self, name: _Optional[str] = ...) -> None: ...
 
 class Nodes(_message.Message):
-    __slots__ = ("nodes",)
-    NODES_FIELD_NUMBER: _ClassVar[int]
-    nodes: _containers.RepeatedScalarFieldContainer[str]
-    def __init__(self, nodes: _Optional[_Iterable[str]] = ...) -> None: ...
+    __slots__ = ("keys", "values")
+    KEYS_FIELD_NUMBER: _ClassVar[int]
+    VALUES_FIELD_NUMBER: _ClassVar[int]
+    keys: _containers.RepeatedScalarFieldContainer[int]
+    values: _containers.RepeatedScalarFieldContainer[str]
+    def __init__(self, keys: _Optional[_Iterable[int]] = ..., values: _Optional[_Iterable[str]] = ...) -> None: ...
 
 class UploadFile(_message.Message):
     __slots__ = ("name", "size")
