@@ -12,10 +12,12 @@ class NameFile(_message.Message):
     def __init__(self, name: _Optional[str] = ...) -> None: ...
 
 class Nodes(_message.Message):
-    __slots__ = ("nodes",)
-    NODES_FIELD_NUMBER: _ClassVar[int]
-    nodes: bytes
-    def __init__(self, nodes: _Optional[bytes] = ...) -> None: ...
+    __slots__ = ("keys", "values")
+    KEYS_FIELD_NUMBER: _ClassVar[int]
+    VALUES_FIELD_NUMBER: _ClassVar[int]
+    keys: bytes
+    values: bytes
+    def __init__(self, keys: _Optional[bytes] = ..., values: _Optional[bytes] = ...) -> None: ...
 
 class UploadFile(_message.Message):
     __slots__ = ("name", "size")

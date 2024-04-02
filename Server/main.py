@@ -96,7 +96,7 @@ class Services(services_pb2_grpc.ServicesServicer):
         keys = json.dumps(list(nodes.keys()))
         values = json.dumps(list(nodes.values()))
 
-        return services_pb2.Nodes(nodes=bytes(keys, 'utf-8'))
+        return services_pb2.Nodes(keys=bytes(keys, 'utf-8'), values=bytes(values, 'utf-8'))
 
     def ManageFile(self, request, context):
         size = request.size

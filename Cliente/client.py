@@ -36,8 +36,6 @@ class Interface:
                 threading.Thread(target=mom_server.get_blocks).start()
                 grpc_server.get_file(file, self.ip)
 
-
-
             elif option == "0":
                 break
             else:
