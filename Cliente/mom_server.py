@@ -19,15 +19,15 @@ def get_blocks():
     channel.start_consuming()
 
 
-# def send_block(ip, block):
-#     global port
+def send_block(ip, block):
+    global port
 
-#     connection = pika.BlockingConnection(pika.ConnectionParameters(ip, port))
-#     channel = connection.channel()
+    connection = pika.BlockingConnection(pika.ConnectionParameters(ip, port))
+    channel = connection.channel()
 
-#     channel.queue_declare(queue='blocks')
+    channel.queue_declare(queue='blocks')
 
-#     channel.basic_publish(exchange='', routing_key=ip, body=block)
-#     print(f" [x] Sent block to {ip}")
+    channel.basic_publish(exchange='', routing_key=ip, body=block)
+    print(f" [x] Sent block")
 
-#     connection.close()
+    connection.close()

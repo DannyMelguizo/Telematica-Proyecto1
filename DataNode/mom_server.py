@@ -15,7 +15,7 @@ def get_blocks():
     channel.queue_declare(queue='blocks')
 
     def callback(ch, method, properties, body):
-        print(f" [x] Received")
+        print(f" [x] Received'")
 
         if not os.path.exists('blocks'):
             os.makedirs('blocks')
@@ -39,22 +39,22 @@ def get_blocks():
     channel.basic_consume(queue='blocks', on_message_callback=callback, auto_ack=True)
     channel.start_consuming()
 
-def send_block(ip, block, file):
-    global port
+# def send_block(ip, block, file):
+#     global port
 
-    connection = pika.BlockingConnection(pika.ConnectionParameters(ip, port))
-    channel = connection.channel()
+#     connection = pika.BlockingConnection(pika.ConnectionParameters(ip, port))
+#     channel = connection.channel()
 
-    channel.queue_declare(queue='sent_block')
+#     channel.queue_declare(queue='sent_block')
 
-    block_name = f"{file}.{block}"
+#     block_name = f"{file}.{block}"
 
-    data = b''
+#     data = b''
 
-    with open(f'\\blocks\\{block_name}', 'rb') as file:
-        data = file.read()
+#     with open(f'\\blocks\\{block_name}', 'rb') as file:
+#         data = file.read()
 
-    channel.basic_publish(exchange='', routing_key=ip, body=data)
-    print(f" [x] Sent block to {ip}")
+#     channel.basic_publish(exchange='', routing_key=ip, body=data)
+#     print(f" [x] Sent block to {ip}")
 
-    connection.close()
+#     connection.close()
