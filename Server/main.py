@@ -81,9 +81,12 @@ class Services(services_pb2_grpc.ServicesServicer):
 
         nodes = []
 
-        nodes.append(data_files.get_nodes(name))
-        
+        node = data_files.get_nodes(name)
+
+        nodes.append(node)
+
         print(f"File {name} requested")
+        print(f"Nodes: {nodes}")
 
         return services_pb2.Nodes(nodes=nodes)
 
