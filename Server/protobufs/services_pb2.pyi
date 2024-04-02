@@ -15,9 +15,9 @@ class Nodes(_message.Message):
     __slots__ = ("keys", "values")
     KEYS_FIELD_NUMBER: _ClassVar[int]
     VALUES_FIELD_NUMBER: _ClassVar[int]
-    keys: _containers.RepeatedScalarFieldContainer[int]
+    keys: _containers.RepeatedScalarFieldContainer[str]
     values: _containers.RepeatedScalarFieldContainer[str]
-    def __init__(self, keys: _Optional[_Iterable[int]] = ..., values: _Optional[_Iterable[str]] = ...) -> None: ...
+    def __init__(self, keys: _Optional[_Iterable[str]] = ..., values: _Optional[_Iterable[str]] = ...) -> None: ...
 
 class UploadFile(_message.Message):
     __slots__ = ("name", "size")

@@ -7,7 +7,7 @@ message NameFile {
 }
 
 message Nodes {
-    repeated int32 keys = 1;
+    repeated string keys = 1;
     repeated string values = 2;
 }
 
