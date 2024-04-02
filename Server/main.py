@@ -87,6 +87,9 @@ class Services(services_pb2_grpc.ServicesServicer):
         keys = list(nodes.keys())
         values = list(nodes.values())
 
+        print(f"Keys: {keys}")
+        print(f"Values: {values}")
+
         return services_pb2.Nodes(keys=keys, values=values)
 
     def ManageFile(self, request, context):
