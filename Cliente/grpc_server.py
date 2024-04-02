@@ -54,7 +54,7 @@ def get_file(name_file, ip):
         stub = services_pb2_grpc.ServicesStub(channel)
         response = stub.SendNode(services_pb2.NameFile(name=name_file))
 
-        nodes = json.loads(response.nodes)
+        nodes = response.nodes
     
         print(f"Nodes: {nodes}")
 

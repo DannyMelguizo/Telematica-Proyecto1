@@ -79,7 +79,10 @@ class Services(services_pb2_grpc.ServicesServicer):
     def SendNode(self, request, context):
         name = request.name
 
-        nodes = data_files.get_nodes(name)
+        nodes = []
+
+        nodes.append(data_files.get_nodes(name))
+        
         print(f"File {name} requested")
 
         return services_pb2.Nodes(nodes=nodes)
