@@ -35,9 +35,7 @@ def get_blocks():
 
         main.asign_node(name_file.decode('utf-8'), block.decode('utf-8'))
 
-
-    print(' [*] Waiting for blocks. To exit press CTRL+C')
-    channel.basic_consume(queue='blocks', on_message_callback=callback, auto_ack=True)
+    channel.basic_consume(queue=ip, on_message_callback=callback, auto_ack=True)
     channel.start_consuming()
 
 # def send_block(ip, block, file):
