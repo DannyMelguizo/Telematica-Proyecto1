@@ -102,7 +102,7 @@ class Services(services_pb2_grpc.ServicesServicer):
         print(f"Nodes: {nodes}")
 
         keys = list(nodes.keys())
-        values = bytes(nodes.values())
+        values = bytes(list(nodes.values()))
 
         return services_pb2.Nodes(nodes=values)
 
