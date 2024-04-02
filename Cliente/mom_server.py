@@ -28,6 +28,6 @@ def send_block(ip, block):
     channel.queue_declare(queue='blocks')
 
     channel.basic_publish(exchange='', routing_key=ip, body=block)
-    print(f" [x] Sent block")
+    print(f" [x] Sent block to {ip}")
 
     connection.close()
