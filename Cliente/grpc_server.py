@@ -50,16 +50,20 @@ def send_file(name_file, ip):
 def get_file(name_file, ip):
     global port
 
-    nodes = []
-
     with grpc.insecure_channel(f'{ip}:{port}') as channel:
         stub = services_pb2_grpc.ServicesStub(channel)
         response = stub.SendNode(services_pb2.NameFile(name=name_file))
-        keys = response.keys
-        values = response.values
 
-        for i in range(len(keys)):
-            nodes.append((keys[i], values[i]))
+        try:
+            blocks = response.keys
+            nodes = response.values
+
+            print(f"Blocks: {blocks}")
+            print(f"Nodes: {nodes}")
+
+        except:
+            print("Error getting nodes")
+
 
 
     print(f"Nodes: {nodes}")
