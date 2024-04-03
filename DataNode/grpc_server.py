@@ -1,6 +1,7 @@
 import os
 import grpc
 import config_file, mom_server
+import threading
 
 from protobufs import services_pb2, services_pb2_grpc
 from concurrent import futures
@@ -20,6 +21,6 @@ class Services(services_pb2_grpc.ServicesServicer):
         block = request.block
         file = request.file
         
-        mom_server.send_block(ip, block, file)
+        threading.Thread(target=mom_server.send_block, args=(ip, block, file)).start()
 
         return services_pb2.GetBlockResponse()
