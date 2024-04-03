@@ -18,6 +18,7 @@ def main():
     try:
 
         grpc_server = threading.Thread(target=server_grpc)
+        grpc_server.daemon = True
         grpc_server.start()
 
         ip = "0.0.0.0"
@@ -30,7 +31,9 @@ def main():
         while True:
             client_socket, client_address = server.accept()
         
-            threading.Thread(target=handle_client, args=(client_socket,client_address)).start()
+            thread = threading.Thread(target=handle_client, args=(client_socket,client_address))
+            thread.daemon = True
+            thread.start()
 
     except KeyboardInterrupt:
         print("Exiting server")
