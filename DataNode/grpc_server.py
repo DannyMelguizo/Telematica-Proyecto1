@@ -19,7 +19,7 @@ class Services(services_pb2_grpc.ServicesServicer):
         ip = request.ip
         block = request.block
         file = request.file
+        
+        mom_server.send_block(ip, block, file)
 
-        block_encode = mom_server.send_block(ip, block, file)
-
-        return services_pb2.GetBlockResponse(block=block_encode)
+        return services_pb2.GetBlockResponse()
