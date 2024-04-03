@@ -48,14 +48,11 @@ def send_block(ip, block, file):
 
     block_name = f"{file}.{block}"
 
-    data = b''
-
     file_path = f'blocks/{block_name}'
 
     with open(file_path, 'rb') as file:
-        data = file.read()
 
-    channel.basic_publish(exchange='', routing_key='sent_blocks', body=data)
-    print(f" [x] Sent")
+        channel.basic_publish(exchange='', routing_key='sent_blocks', body=file.read())
+        print(f" [x] Sent")
 
-    connection.close()
+        connection.close()
