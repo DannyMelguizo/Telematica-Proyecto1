@@ -44,7 +44,7 @@ def send_block(ip, block, file):
     connection = pika.BlockingConnection(pika.ConnectionParameters(ip, port))
     channel = connection.channel()
 
-    channel.queue_declare(queue='sent_block')
+    channel.queue_declare(queue='sent_blocks')
 
     block_name = f"{file}.{block}"
 
@@ -56,6 +56,6 @@ def send_block(ip, block, file):
         data = file.read()
 
     channel.basic_publish(exchange='', routing_key=ip, body=data)
-    print(f" [x] Sent block to {ip}")
+    print(f" [x] Sent")
 
     connection.close()
