@@ -90,13 +90,8 @@ def get_file(name_file, ip):
     with waiting_blocks:
         waiting_blocks.wait()
 
-    if not os.path.exists(f'files/{name_file}'):
-        # Rebuild the file
-        rebuild_file(name_file)
-
-        for filename in os.listdir('.'):
-            if filename.startswith(name_file):
-                print(filename)
+    # Rebuild the file
+    rebuild_file(name_file)
     
     print("File downloaded")
 
