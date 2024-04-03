@@ -37,6 +37,7 @@ class Interface:
                 thread.daemon = True
                 thread.start()
                 grpc_server.get_file(file, self.ip)
+                input("\nPress any key to go back to the menu.")
                 
             elif option == "0":
                 break
