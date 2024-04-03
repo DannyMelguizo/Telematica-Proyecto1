@@ -41,6 +41,8 @@ def get_blocks():
 def send_block(ip, block, file):
     global port
 
+    print(ip, port)
+
     connection = pika.BlockingConnection(pika.ConnectionParameters(ip, port))
     channel = connection.channel()
 
@@ -51,8 +53,6 @@ def send_block(ip, block, file):
     file_path = f'blocks/{block_name}'
 
     with open(file_path, 'rb') as file:
-
-        print(file.read())
 
         channel.basic_publish(exchange='', routing_key='sent_blocks', body=file.read())
         print(f" [x] Sent")

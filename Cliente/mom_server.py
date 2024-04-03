@@ -7,6 +7,9 @@ def get_blocks():
     global port
 
     ip = config_file.get_ip()
+
+    print(ip, port)
+
     connection = pika.BlockingConnection(pika.ConnectionParameters(ip, port))
     channel = connection.channel()
 
@@ -16,7 +19,6 @@ def get_blocks():
         print(f" [x] Block Received")
         grpc_server.save_block(body)
 
-    print(' [*] Waiting for blocks')    
     channel.basic_consume(queue='sent_blocks', on_message_callback=callback, auto_ack=True)
     channel.start_consuming()
 
