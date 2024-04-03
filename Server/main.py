@@ -91,7 +91,6 @@ class Services(services_pb2_grpc.ServicesServicer):
         nodes = data_files.get_nodes(name)
 
         print(f"File {name} requested")
-        print(f"Nodes: {nodes}")
 
         keys = json.dumps(list(nodes.keys()))
         values = json.dumps(list(nodes.values()))

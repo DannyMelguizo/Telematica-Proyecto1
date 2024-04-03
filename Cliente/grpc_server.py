@@ -62,13 +62,35 @@ def get_file(name_file, ip):
         values = json.loads(decode_values)
 
         nodes = dict(zip(keys, values))
-    
-    print(nodes)
 
     # Get the blocks
+    for block in nodes:
+
+        for node in nodes[block]:
+            try:
+                with grpc.insecure_channel(f'{node}:{port}') as channel:
+                    stub = services_pb2_grpc.ServicesStub(channel)
+
+                    response = stub.SendBlock(services_pb2.GetBlock(ip=node, block=block, file=name_file))
+
+                    break
+            except:
+                print(f"Node {node} is not available")
 
     # Rebuild the file
     # rebuild_file(name_file)
+                
+def save_block(body):
+    data = body.split(b'\n')
+    name_file = data[0]
+    blocks = data[2]
+    block = blocks.split(b'/')[0]
+
+    block_name = f"{name_file.decode('utf-8')}.{block.decode('utf-8')}"
+
+    with open(block_name, 'wb') as file:
+        file.write(body)
+    
 
 def rebuild_file(name_file):
     blocks = []
