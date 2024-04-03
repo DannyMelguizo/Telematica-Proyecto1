@@ -92,6 +92,14 @@ def get_file(name_file, ip):
 
     # Rebuild the file
     rebuild_file(name_file)
+
+    for filename in os.listdir('.'):
+        if filename.startswith(name_file):
+            os.remove(filename)
+    
+    print("File downloaded")
+
+
                 
 def save_block(body):
     global current_block
@@ -100,9 +108,9 @@ def save_block(body):
     name_file = data[0]
     blocks = data[2]
     block = blocks.split(b'/')[0]
-    _total_blocks = blocks.split(b'/')[1]
+    total_blocks = blocks.split(b'/')[1]
 
-    set_total_blocks(name_file.decode('utf-8'), int(_total_blocks))
+    set_total_blocks(name_file.decode('utf-8'), int(total_blocks))
 
     block_name = f"{name_file.decode('utf-8')}.{block.decode('utf-8')}"
 
