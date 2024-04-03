@@ -100,9 +100,9 @@ def save_block(body):
     name_file = data[0]
     blocks = data[2]
     block = blocks.split(b'/')[0]
-    total_blocks = blocks.split(b'/')[1]
+    _total_blocks = blocks.split(b'/')[1]
 
-    set_total_blocks(name_file.decode('utf-8'), int(total_blocks))
+    set_total_blocks(name_file.decode('utf-8'), int(_total_blocks))
 
     block_name = f"{name_file.decode('utf-8')}.{block.decode('utf-8')}"
 
