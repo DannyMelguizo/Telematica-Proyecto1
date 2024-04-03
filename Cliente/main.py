@@ -1,5 +1,6 @@
 import config_file, client
 import re
+import sys
 
 def main():
     config_file.create_config_file()
@@ -11,6 +12,7 @@ def main():
         ip = input("Enter a valid IP: ")
 
     client.Interface(ip)
+    sys.exit(0)
     
 
 def validate_ip(ip):

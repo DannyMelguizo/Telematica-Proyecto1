@@ -67,15 +67,15 @@ def get_file(name_file, ip):
     for block in nodes:
 
         for node in nodes[block]:
-            try:
-                with grpc.insecure_channel(f'{node}:{port}') as channel:
-                    stub = services_pb2_grpc.ServicesStub(channel)
+            # try:
+            with grpc.insecure_channel(f'{node}:{port}') as channel:
+                stub = services_pb2_grpc.ServicesStub(channel)
 
-                    response = stub.SendBlock(services_pb2.GetBlock(ip=node, block=block, file=name_file))
+                response = stub.SendBlock(services_pb2.GetBlock(ip=node, block=block, file=name_file))
 
-                    break
-            except:
-                print(f"Node {node} is not available")
+            #         break
+            # except:
+            #     print(f"Node {node} is not available")
 
     # Rebuild the file
     # rebuild_file(name_file)
@@ -90,7 +90,7 @@ def save_block(body):
 
     with open(block_name, 'wb') as file:
         file.write(body)
-    
+
 
 def rebuild_file(name_file):
     blocks = []
