@@ -50,6 +50,8 @@ def send_block(ip, block, file):
 
     data = b''
 
+    print(f"Sending block {block_name} to {ip}")
+
     with open(f'blocks\{block_name}', 'rb') as file:
         data = file.read()
 
