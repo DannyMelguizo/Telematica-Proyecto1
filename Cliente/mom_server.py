@@ -16,7 +16,7 @@ def get_blocks():
         print(f" [x] Block Received")
         grpc_server.save_block(body)
 
-    
+    print(' [*] Waiting for blocks')    
     channel.basic_consume(queue='sent_blocks', on_message_callback=callback, auto_ack=True)
     channel.start_consuming()
 
