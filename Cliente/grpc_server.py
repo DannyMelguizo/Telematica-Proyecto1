@@ -93,9 +93,9 @@ def get_file(name_file, ip):
     # Rebuild the file
     rebuild_file(name_file)
 
-    for filename in os.listdir('.'):
-        if filename.startswith(name_file):
-            os.remove(filename)
+    # for filename in os.listdir('.'):
+    #     if filename.startswith(name_file):
+    #         os.remove(filename)
     
     print("File downloaded")
 
