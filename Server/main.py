@@ -15,16 +15,17 @@ def main():
     config_file.create_config_file()
     data_files.create_data_file()
 
+    ip = "0.0.0.0"
+    port = config_file.get_port()
+
+    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
     try:
 
         grpc_server = threading.Thread(target=server_grpc)
         grpc_server.daemon = True
         grpc_server.start()
 
-        ip = "0.0.0.0"
-        port = config_file.get_port()
-
-        server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         server.bind((ip, port))
         server.listen()
 
