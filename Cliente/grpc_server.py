@@ -71,7 +71,7 @@ def get_file(name_file, ip):
             with grpc.insecure_channel(f'{node}:{port}') as channel:
                 stub = services_pb2_grpc.ServicesStub(channel)
 
-                stub.SendBlock(services_pb2.GetBlock(ip=node, file=name_file,  block=int(block)))
+                stub.SendBlock(services_pb2.GetBlock(ip=config_file.get_ip(), file=name_file,  block=int(block)))
 
             #         break
             # except:

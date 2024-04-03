@@ -8,8 +8,6 @@ def get_blocks():
 
     ip = config_file.get_ip()
 
-    print(ip, port)
-
     connection = pika.BlockingConnection(pika.ConnectionParameters(ip, port))
     channel = connection.channel()
 
