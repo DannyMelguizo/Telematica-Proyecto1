@@ -92,10 +92,6 @@ def get_file(name_file, ip):
 
     # Rebuild the file
     rebuild_file(name_file)
-    
-    print("File downloaded")
-
-
                 
 def save_block(body):
     global current_block
