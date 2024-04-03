@@ -53,10 +53,23 @@ class Interface:
             elif option == "3":
                 print("Enter the name of the file to download.")
                 file = input("File: ")
+
+                files = grpc_server.list_files(self.ip)
+
+                if len(files) == 0:
+                    print("There are no files to download.\n")
+                    continue
+                
+                original_file = validate_file(file, files)
+
+                if original_file == False:
+                    print("The file does not exist in the server.")
+                    continue
+
                 thread = threading.Thread(target=mom_server.get_blocks)
                 thread.daemon = True
                 thread.start()
-                grpc_server.get_file(file, self.ip)
+                grpc_server.get_file(original_file, self.ip)
                 input("\nPress any key to go back to the menu.")
 
             elif option == "0":
