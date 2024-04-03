@@ -50,7 +50,7 @@ def send_block(ip, block, file):
 
     data = b''
 
-    with open(f'\\blocks\\{block_name}', 'rb') as file:
+    with open(f'blocks\\{block_name}', 'rb') as file:
         data = file.read()
 
     channel.basic_publish(exchange='', routing_key=ip, body=data)
