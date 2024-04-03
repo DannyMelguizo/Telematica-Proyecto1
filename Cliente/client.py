@@ -33,7 +33,9 @@ class Interface:
             elif option == "3":
                 print("Enter the name of the file to download.")
                 file = input("File: ")
-                threading.Thread(target=mom_server.get_blocks).start()
+                thread = threading.Thread(target=mom_server.get_blocks)
+                thread.daemon = True
+                thread.start()
                 grpc_server.get_file(file, self.ip)
 
             elif option == "0":
