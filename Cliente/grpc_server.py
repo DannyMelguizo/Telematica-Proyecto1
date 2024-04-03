@@ -98,7 +98,7 @@ def get_file(name_file, ip):
         if filename.startswith(name_file):
             os.remove(filename)
 
-    print("File downloaded")
+    print("\nFile downloaded")
                 
 def save_block(body):
     global current_block
