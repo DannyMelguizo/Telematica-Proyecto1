@@ -41,8 +41,6 @@ def get_blocks():
 def send_block(ip, block, file):
     global port
 
-    print(ip, port)
-
     connection = pika.BlockingConnection(pika.ConnectionParameters(ip, port))
     channel = connection.channel()
 

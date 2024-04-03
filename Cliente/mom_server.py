@@ -14,7 +14,6 @@ def get_blocks():
     channel.queue_declare(queue='sent_blocks')
 
     def callback(ch, method, properties, body):
-        print(f" [x] Block Received")
         grpc_server.save_block(body)
 
     channel.basic_consume(queue='sent_blocks', on_message_callback=callback, auto_ack=True)
