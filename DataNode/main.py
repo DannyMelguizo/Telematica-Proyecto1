@@ -92,6 +92,8 @@ def connect_to_node(ip):
     server.connect((ip, port))
     server.close()
     peers.append(ip)
+
+    print(peers)
     
 def validate_ip(ip):
     pattern = r'^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
@@ -107,7 +109,6 @@ def validate_ip(ip):
 
 def get_peers():
     global peers
-    print(peers)
     return peers
 
 if __name__ == '__main__':
