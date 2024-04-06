@@ -30,7 +30,9 @@ def get_blocks():
 
                 
         if replica == b'0':
-            main.get_peers()
+            peers = main.peers
+
+            print(peers)
             
             # random_peer = random.choice(peers)
 
