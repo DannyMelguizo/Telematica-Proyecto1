@@ -4,7 +4,6 @@ import socket
 import json
 import threading
 
-peers = []
 
 def main():
     config_file.create_config_file()
@@ -67,12 +66,8 @@ def server():
         threading.Thread(target=handle_client, args=(client_socket, client_address)).start()
 
 def handle_client(client_socket, client_address):
-    global peers
-    if len(peers) == 2:
-        peers[1] = client_address[0]
-    else:
-        peers.append(client_address[0])
-        
+    config_file.add_peer(client_address[0])
+
     client_socket.close()
 
 def asign_node(file_name, block):
@@ -92,7 +87,7 @@ def connect_to_node(ip):
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.connect((ip, port))
     server.close()
-    peers.append(ip)
+    config_file.add_peer(ip)
     
 def validate_ip(ip):
     pattern = r'^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'

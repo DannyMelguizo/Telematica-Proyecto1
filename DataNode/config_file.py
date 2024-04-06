@@ -49,3 +49,21 @@ def get_port_mom():
 
 def get_port():
     return int(get_config()['config']['port'])
+
+def add_peer(ip):
+    config['peers'] = {}
+
+    if get_config()['peers'] == '':
+        config['peers'] = {
+            'peer1': ip,
+            'peer2': ''
+        }
+    else:
+        config['peers'] = get_config()['peers']
+        config['peers']['peer2'] = ip
+    
+    with open('config.conf', 'w') as archivo:
+        config.write(archivo)
+
+def get_peers():
+    return get_config()['peers'].values()

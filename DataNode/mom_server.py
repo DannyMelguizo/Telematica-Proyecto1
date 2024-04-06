@@ -30,7 +30,7 @@ def get_blocks():
 
                 
         if replica == b'0':
-            peers = main.peers
+            peers = config_file.get_peers()
 
             print(peers)
             
