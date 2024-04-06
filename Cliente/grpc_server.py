@@ -41,6 +41,7 @@ def send_file(name_file, ip):
                 block.write(f"{name_file}\n".encode())
                 block.write(f"{size_file}\n".encode())
                 block.write(f"{i+1}/{total_blocks}\n".encode())
+                block.write(f"0\n".encode())
                 block.write(data)
                 print(f"Block {i+1} of {total_blocks} created")
 

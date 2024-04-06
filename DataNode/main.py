@@ -103,6 +103,8 @@ def validate_ip(ip):
     else:
         return False
 
+def get_peers():
+    return peers
 
 if __name__ == '__main__':
 
