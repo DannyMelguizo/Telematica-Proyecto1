@@ -32,7 +32,7 @@ def get_blocks():
         if replica == b'0':
             peers = config_file.get_peers()
 
-            print(peers)
+            print(f'Peers: {peers}')
             
             # random_peer = random.choice(peers)
 

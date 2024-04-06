@@ -82,7 +82,6 @@ def asign_node(file_name, block):
     connect_to_server("save_data", data)
 
 def connect_to_node(ip):
-    global peers
     port = config_file.get_port()
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.connect((ip, port))
