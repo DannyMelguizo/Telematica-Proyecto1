@@ -63,4 +63,4 @@ def add_peer(ip):
         config.write(archivo)
 
 def get_peers():
-    return get_config()['peers'].values()
+    return get_config()['peers']
