@@ -106,6 +106,7 @@ def validate_ip(ip):
         return False
 
 def get_peers():
+    global peers
     return peers
 
 if __name__ == '__main__':
