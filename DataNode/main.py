@@ -67,6 +67,7 @@ def server():
         threading.Thread(target=handle_client, args=(client_socket, client_address)).start()
 
 def handle_client(client_socket, client_address):
+    global peers
     if len(peers) == 2:
         peers[1] = client_address[0]
     else:
@@ -85,6 +86,7 @@ def asign_node(file_name, block):
     connect_to_server("save_data", data)
 
 def connect_to_node(ip):
+    global peers
     port = config_file.get_port()
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.connect((ip, port))
