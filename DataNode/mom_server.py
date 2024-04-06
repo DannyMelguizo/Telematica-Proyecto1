@@ -1,9 +1,8 @@
 import pika
-import config_file
+import config_file, main
 import shutil
 import os
 import random
-from main import *
 
 port = config_file.get_port_mom()
 
