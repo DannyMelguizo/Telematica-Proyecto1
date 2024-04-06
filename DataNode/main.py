@@ -72,6 +72,8 @@ def handle_client(client_socket, client_address):
         peers[1] = client_address[0]
     else:
         peers.append(client_address[0])
+
+    get_peers()
     client_socket.close()
 
 def asign_node(file_name, block):
@@ -106,9 +108,8 @@ def validate_ip(ip):
         return False
 
 def get_peers():
-    global peers
-    connections = peers
-    return connections
+    for peer in peers:
+        print(peer)
 
 if __name__ == '__main__':
 
