@@ -54,10 +54,7 @@ def add_peer(ip):
     config['peers'] = {}
 
     if get_config()['peers'] == '':
-        config['peers'] = {
-            'peer1': ip,
-            'peer2': ''
-        }
+        config['peers']['peer1'] = ip
     else:
         config['peers'] = get_config()['peers']
         config['peers']['peer2'] = ip
