@@ -36,16 +36,13 @@ def get_blocks():
                 connections.append(peer)
             
             random_peer = random.choice(connections)
-
-            print(random_peer)
-
-            # data[3] = b'1'
+            data[3] = b'1'
             
-            # data_reconstructed = b''
-            # for d in data:
-            #     data_reconstructed += d + b'\n'
+            data_reconstructed = b''
+            for d in data:
+                data_reconstructed += d + b'\n'
             
-            # replicate_block(random_peer, data_reconstructed)
+            replicate_block(random_peer, data_reconstructed)
 
             
 
