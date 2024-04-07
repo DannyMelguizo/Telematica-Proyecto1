@@ -53,7 +53,7 @@ def get_port():
 def add_peer(ip):
     config['peers'] = {}
 
-    if get_config()['peers'] == '':
+    if not get_config()['peers']:
         config['peers']['peer1'] = ip
     else:
         config['peers'] = get_config()['peers']
