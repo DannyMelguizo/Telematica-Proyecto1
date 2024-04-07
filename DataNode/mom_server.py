@@ -31,10 +31,10 @@ def get_blocks():
                 
         if replica == b'0':
             peers = config_file.get_peers()
-
-            print(f'Peers: {peers}')
             
-            # random_peer = random.choice(peers)
+            random_peer = random.choice(peers)
+
+            print(random_peer)
 
             # data[3] = b'1'
             
