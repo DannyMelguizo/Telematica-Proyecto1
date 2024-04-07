@@ -141,7 +141,7 @@ def rebuild_file(name_file):
     data_reconstructed = b""
     for block in blocks:
         with open(block, 'rb') as f:
-            name_file, size_file, position = f.readline().decode().strip(), int(f.readline().decode().strip()), f.readline().decode().strip()
+            name_file, size_file, position, replica = f.readline().decode().strip(), int(f.readline().decode().strip()), f.readline().decode().strip(), f.readline().decode().strip()
             data_reconstructed += f.read()
         
     with open(file_path, 'wb') as f:

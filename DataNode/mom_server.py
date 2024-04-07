@@ -44,11 +44,7 @@ def get_blocks():
             
             replicate_block(random_peer, data_reconstructed)
 
-            
-
         block_name = f"{name_file.decode('utf-8')}.{block.decode('utf-8')}"
-
-
 
         with open(block_name, 'wb') as file:
             file.write(body)
@@ -56,8 +52,6 @@ def get_blocks():
         shutil.move(block_name, 'blocks')
 
         main.asign_node(name_file.decode('utf-8'), block.decode('utf-8'))
-
-
 
     channel.basic_consume(queue='blocks', on_message_callback=callback, auto_ack=True)
     channel.start_consuming()
