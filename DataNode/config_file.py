@@ -53,7 +53,7 @@ def get_port():
 def add_peer(ip):
     config['peers'] = {}
 
-    print(f'current peers: {get_config()['peers']}, {type(get_config()["peers"])}')
+    print(f"current peers: {get_config()['peers']}, {type(get_config()['peers'])}")
 
     if get_config()['peers'] == None:
         config['peers']['peer1'] = ip
