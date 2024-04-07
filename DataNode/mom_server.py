@@ -30,9 +30,12 @@ def get_blocks():
 
                 
         if replica == b'0':
+            connections = []
             peers = config_file.get_peers()
+            for peer in peers:
+                connections.append(peer)
             
-            random_peer = random.choice(peers)
+            random_peer = random.choice(connections)
 
             print(random_peer)
 
