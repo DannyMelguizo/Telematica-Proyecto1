@@ -46,12 +46,14 @@ def get_blocks():
 
         block_name = f"{name_file.decode('utf-8')}.{block.decode('utf-8')}"
 
-        with open(block_name, 'wb') as file:
-            file.write(body)
-        
-        shutil.move(block_name, 'blocks')
+        if not os.path.exists(f'blocks/{block_name}'):
 
-        main.asign_node(name_file.decode('utf-8'), block.decode('utf-8'))
+            with open(block_name, 'wb') as file:
+                file.write(body)
+            
+            shutil.move(block_name, 'blocks')
+
+            main.asign_node(name_file.decode('utf-8'), block.decode('utf-8'))
 
     channel.basic_consume(queue='blocks', on_message_callback=callback, auto_ack=True)
     channel.start_consuming()
