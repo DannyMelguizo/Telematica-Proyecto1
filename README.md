@@ -64,7 +64,7 @@ Se tienen tres carpetas principales, Server (NameNode), DataNode, Cliente, las e
 
 2. La carpeta DataNode, los DataNodes se conectan al servidor solicitando un peer al cual conectarse, si es el unico DataNode disponible, es registrado por el servidor para que cuando otro DataNode ingrese, se conecte al ya existente, esta diseñado de tal manera para que se forme una especie de cadena entre los DataNodes, donde el ultimo DataNode que llegue, se conecta al primero y al penultimo, se explica un poco mejor en la imagen a continuacion.
 
-![DataNodes](./imgs/DataNodes.png)
+![DataNodes](./imgs/DataNodes.jpg)
 
 Los DataNodes levantan a su vez tambien dos servicios, MOM y gRPC, el servicio de MOM sera utilizado principalmente para todo el tema de transferencia de archivos, por este servicio recibe los bloques enviados por el usuario y envia los bloques en caso tal un usuario los solicite, el servicio de gRPC es utilizado principlamente para que el usuario pueda comunicarse con el DataNode para solicitarle el envio de los diferentes bloques. Adicionalmente, levantan un servidor, en este caso por sockets, el cual sera utilizado exclusivamente para informarle al servidor que me uni a la red o para conectarse a otro DataNode, esto se realiza para agregar en cada DataNode una lista de peers conocidos.
 
@@ -84,7 +84,7 @@ Se definieron los siguientes puertos para el uso de cada uno de los middlewares:
 
 Para ejecutar el código es necesario crear mínimo tres instancias en AWS, esto para cada una de las interfaces, Cliente, DataNode, Server. Para un buen funcionamiento seguir por favor las siguientes instrucciones:
 
-Crear dos (la cantidad deseada) instancias de EC2 con OS Ubuntu 20.04, recomendable usar el mismo grupo de seguridad para las instancias creadas para no configurar cada una manualmente. Una vez la instancia este creada, ir a los grupos de seguridad y editar las reglas de entrada, vamos a habilitar los siguientes puertos, cada uno de tipo TCP y permitiendo origen desde 0.0.0.0/0:
+Crear tres (la cantidad deseada) instancias de EC2 con OS Ubuntu 20.04, recomendable usar el mismo grupo de seguridad para las instancias creadas para no configurar cada una manualmente. Una vez la instancia este creada, ir a los grupos de seguridad y editar las reglas de entrada, vamos a habilitar los siguientes puertos, cada uno de tipo TCP y permitiendo origen desde 0.0.0.0/0:
   * 8000
   * 8001
   * 5672
@@ -98,58 +98,41 @@ sudo apt-get install python3
 sudo apt-get install python3-pip
 sudo apt install docker.io
 sudo docker run -d --hostname my-rabbit -p 15672:15672 -p 5672:5672 --name rabbit-server rabbitmq:3-management
-sudo git clone https://github.com/DannyMelguizo/Telematica-P2P.git
-cd Telematica-P2P/Peer/
-sudo python3 -m grpc_tools.protoc -I protobufs --python_out=. --pyi_out=. --grpc_python_out=. protobufs/service.proto
+sudo git clone https://github.com/DannyMelguizo/Telematica-Proyecto1.git
+cd Telematica-Proyecto1
 sudo python3 -m pip install -r requirements.txt
 ```
 
-Una vez llegados a este punto, ya es posible ejecutar el proyecto usando el comando:
+Una vez llegados a este punto, es necesario definir los roles de las instancias, me refiero a que es necesario establecer cual vamos a usar como Cliente, cual como Servidor y cual como DataNode. Una vez hecho esto, solo es pararnos en la carpeta correspondiente.
+
+```ssh
+cd Server
+cd Cliente
+cd DataNode
+```
+
+Es importante mencionar que el cliente es quien subira los archivos a el sistema, para subirlos, es necesario agregar los archivos a la carpeta Cliente/files/ por defecto, dicha carpeta vendra con un archivo llamado file.mp3, corresponde a una cancion con un tamaño considerable para tener una buena cantidad de bloques de dicho archivo.
+
+Una vez estemos parados en las distintas carpetas en cada instancia, procederemos a ejecutar el programa, para las tres instancias basta con ejecutar el siguiente comando.
 
 ```ssh
 sudo python3 main.py
 ```
 
-Pero no existiría mucha interacción entre los peers, ya que ninguno tiene archivos para compartir dentro de la red, vamos a hacer una simulación, para ello, tomaremos una de las instancias de AWS como peer de arranque, las otras, serán peers que interactúen con el sistema, vamos a crear una carpeta llamada "shared_files" en la cual crearemos o almacenaremos los archivos que serán compartidos dentro de la red. Para efectos de la simulación podemos crear el mismo archivo en varios peers o diferentes para buscar varios archivos, utilizando el siguiente comando en las instancias que definimos como peers (aclarar que el servidor de arranque también se comporta como peer, solo que por lo general este no debería contener archivos).
+La unica que no deberia mostrar una interfaz sera la instancia del servidor, para el resto de instancias nos solicitara la IP del servidor al cual nos vamos a conectar, en ese caso, colocaremos la proporcionada en AWS correspondiente a la instancia del servidor.
 
-```ssh
-sudo mkdir shared_files
-sudo nano file.txt
-```
-
-Cabe mencionar que este directorio se generara por defecto una vez ejecutado el main.py, pero se generara vacío, podemos crear tantos archivos como queramos dentro de esta ruta y serán compartidos dentro de la red.
-
-Una vez hecho esto ahora si podemos ejecutar el archivo main.py con el comando especificado anteriormente, el primero que ejecutaremos será la instancia que definimos como servidor de arranque, cuando el programa nos solicite la IP del servidor de arranque, colocaremos lo siguiente incluyendo la mayúscula.
-
-```ssh
-Enter the IP of the Bootstrap Server:
-Bootsp
-```
-
-Esto le especificara al sistema que somos un servidor de arranque y que atenderemos a los nuevos peers, una vez hecho esto, podemos ejecutar las demás instancias y esta vez, cuando solicite la IP colocaremos la IP del servidor de arranque proporcionada por AWS.
-
-Se nos mostrara una interfaz como la siguiente.
+En el caso del cliente, se nos proporcionara una interfaz como la siguiente.
 
 ```ssh
 Select a number to navigate through the menu.
-1. Search for a file
-2. List all connections
+1. List files.
+2. Upload file.
+3. Download file.
 
-0. Exit
+0. Exit.
 ```
 
-Si introducimos el número 1, nos permite realizar una petición por un archivo, en la cual deberemos especificar el nombre del archivo, teniendo en cuenta que el sistema es case sensitive. Si el sistema no ha encontrado o no encuentra el archivo se nos mostrara un mensaje como el siguiente:
+Una vez llegados a este punto podemos interactuar con el sistema, teniendo en cuenta que no podremos descargar archivos que no esten en el sistema y que no podremos subir archivos que no esten dentro de la ruta de files, especificada anteriormente.
 
-```ssh
-Looking for the file...
-
-If the file is found, we will show you a list below.
-
-Press any key to go back to the menu.
-```
-En el cual podemos apretar cualquier tecla para realizar otra búsqueda, teniendo en cuenta que una vez se encuentre, nos llega una lista con los peers que tienen el archivo y el nombre del archivo para reconocer que búsqueda se realizó.
-
-La otra opción que tiene la interfaz, en este caso el número 2, es para listar las conexiones que ese peer tiene, estas conexiones son a las que él le preguntara por el archivo y confía en que cada conexión le preguntara a su vez a las conexiones que ellos tengan.
-
-Por último, si introducimos la opción 0 abandonaremos la red, pero antes de abandonarla el peer notifica a sus conexiones que saldrá de la red, por lo tanto, se tienen que reestructurar.
+En las instancias tanto del servidor como de los DataNodes, podremos ver diferente informacion que va ocurriendo a medida que el usuario interactua con el sistema.
 
