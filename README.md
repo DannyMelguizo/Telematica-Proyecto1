@@ -9,7 +9,7 @@
 **Tabla de Contenido**
 1. [Introducción](#introduccion)
 2. [Requisitos completados y no completados](#requisitos)
-3. [Diseño y arquitectura](#arquitectura)
+3. [Arquitectura](#arquitectura)
 4. [Ambiente de desarrollo](#ambiente)
 5. [Ejecución](#ejecucion)
 
