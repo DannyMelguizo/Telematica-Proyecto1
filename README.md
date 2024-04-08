@@ -1,6 +1,6 @@
 # **ST0263 Tópicos Especiales en Telemática**
 
-# **Estudiantes**: Daniel Melguizo Roldan, dmelguizor@eafit.edu.co  Holmer Ortega Gomez, hortegag@eafit.edu.co
+# **Estudiantes**: Daniel Melguizo Roldan, dmelguizor@eafit.edu.co - Holmer Ortega Gomez, hortegag@eafit.edu.co
 
 # **Profesor**: Juan Carlos Montoya Mendoza, jcmontoy@eafit.edu.co
 
