@@ -87,7 +87,6 @@ def handle_client(client_socket, client_address):
         except:
             print("Invalid data received")
 
-
 class Services(services_pb2_grpc.ServicesServicer):
     def SendNode(self, request, context):
         name = request.name
