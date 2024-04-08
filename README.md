@@ -1,6 +1,6 @@
 # **ST0263 Tópicos Especiales en Telemática**
 
-# **Estudiantes**: Daniel Melguizo Roldan, dmelguizor@eafit.edu.co Holmer Ortega Gomez, hortegag@eafit.edu.co
+# **Estudiantes**: Daniel Melguizo Roldan, dmelguizor@eafit.edu.co  Holmer Ortega Gomez, hortegag@eafit.edu.co
 
 # **Profesor**: Juan Carlos Montoya Mendoza, jcmontoy@eafit.edu.co
 
@@ -12,7 +12,6 @@
 3. [Diseño y arquitectura](#arquitectura)
 4. [Ambiente de desarrollo](#ambiente)
 5. [Ejecución](#ejecucion)
-6. [Referencias](#referencias)
 
 *******
 
@@ -52,32 +51,30 @@ El proyecto consiste en diseñar un sistema de archivos distribuido, que permita
 <div id="ambiente" />
   
 ### ***3. Descripción del ambiente de desarrollo y técnico***
-Este reto fue desarrollado en Python, la carpeta Bootsp inicialmente fue pensada para el desarrollo del servidor de arranque en JavaScript al final se presentaron algunos problemas en el manejo de sockets dentro del lenguaje, que por alguna razón bloqueaban el servidor así que fue adaptado de igual manera a Python para un correcto funcionamiento.
+Este proyecto fue desarrollado en Python y se utilizaron las siguientes librerias para el desarrollo del mismo, todas las que son necesarias instalar vienen para ser instaladas dentro del archivo texto requirements.txt:
 
-Para el desarrollo de este reto use las siguientes librerías, todas las que son necesarias instalar vienen para ser instaladas dentro del archivo texto requirements.txt:
-
-* **threading , re , socket , random , json , configparser , os**
+* **threading , re , socket , random , json , configparser , os, sys**
 * **grpc version >= 1.62.0**
 * **grpcio-tools version >= 1.62.0**
-* **requests version >= 2.31.0**
 * **pika version >= 1.3.2**
 
-La red P2P fue pensada como un árbol binario, en la que cada nodo o peer puede tener inicialmente máximo tres conexiones, un padre y dos hijos, en este caso, el nodo padre será el peer al cual nos conectamos en primera instancia los nodos hijos serán peers que vayan llegando a la red. En primera instancia se puede llegar a pensar que si se cae el nodo raíz se cae toda la red, pero esto no es cierto, ya que el primer nodo, es decir el servidor de arranque no está limitado a dos hijos, también tiene como límite tres conexiones las cuales se van agregando de manera aleatoria, se explica un poco mejor en la imagen.
+Se tienen tres carpetas principales, Server (NameNode), DataNode, Cliente, las explicaremos en orden para entender un poco el funcionamiento de lo desarrollado.
 
-![red](./imgs/red.jpg)
+1. La carpeta Server, en este caso, el NameNode, es el encargado de gestionar las conexiones de los DataNode y de proporcionar la diferente informacion que el usuario solicite a la aplicacion. Se genera un archivo data.json en el cual se va guardando la informacion contenida en el servidor, como por ejemplo, que archivos estan en el sistema, el tamaño de cada archivo, en cuantos bloques esta dividido dicho archivo y los nodos que tienen cada uno de los bloques en los que esta dividido. El server levanta un servicio gRPC a traves del cual respondera las distintas solicitudes realizadas por el usuario, y inicia un servidor que espera las conexiones de los distintos DataNodes.
 
-Esto es una representación gráfica de cómo se puede ir organizando la red, cada que un nodo llega, consulta el servidor de arranque por los nodos disponibles en la red y se conecta de manera aleatoria a uno de ellos, en este caso la red seria centralizada, ya que hay que preguntarle a un servidor antes de ingresar a la red, la solución planteada a este problema es tener más de un servidor de arranque en la que cada uno comparte el mismo archivo de peers disponibles, pero esto no se logró a implementar dentro del reto, por lo tanto, considero no se cumplió esa meta; aun así, si desaparece el servidor de arranque, a pesar de que nadie puede ingresar en la red, los que forman parte de ella pueden operar sin problemas.
+2. La carpeta DataNode, los DataNodes se conectan al servidor solicitando un peer al cual conectarse, si es el unico DataNode disponible, es registrado por el servidor para que cuando otro DataNode ingrese, se conecte al ya existente, esta diseñado de tal manera para que se forme una especie de cadena entre los DataNodes, donde el ultimo DataNode que llegue, se conecta al primero y al penultimo, se explica un poco mejor en la imagen a continuacion.
 
-Un problema planteado con esta solución es el tema de que sucede cuando un nodo abandona la red, ¿los nodos hijos de ese peer que abandona la red se caen y ya no forman parte de la red? la respuesta es no, aunque en este caso el sistema no contempla que el nodo que abandona se caiga por algún factor externo, si el nodo que abandona la red, lo hace mediante la interfaz que es ofrecida por el sistema, reestructura la red para que uno de sus hijos tome su posición y se conecte a los nodos que él estaba conectado a manera de puente.
+![DataNodes](./imgs/DataNodes.png)
 
-Esta estructura de árbol facilita la búsqueda de archivos dentro de la red, podemos enviar una petición a todos los nodos que un peer conozca y además, decir que esa solicitud no se la devuelva al peer que se la está realizando, esto para evitar que hayan peticiones redundantes dentro de la red y haya mucho tráfico, en cierto modo se realiza un flooding dentro de la red para buscar el archivo, no se estableció un TTL para las peticiones.
+Los DataNodes levantan a su vez tambien dos servicios, MOM y gRPC, el servicio de MOM sera utilizado principalmente para todo el tema de transferencia de archivos, por este servicio recibe los bloques enviados por el usuario y envia los bloques en caso tal un usuario los solicite, el servicio de gRPC es utilizado principlamente para que el usuario pueda comunicarse con el DataNode para solicitarle el envio de los diferentes bloques. Adicionalmente, levantan un servidor, en este caso por sockets, el cual sera utilizado exclusivamente para informarle al servidor que me uni a la red o para conectarse a otro DataNode, esto se realiza para agregar en cada DataNode una lista de peers conocidos.
 
-Hablando un poco de la implementación, como se mostró en la imagen correspondiente a la arquitectura, se usaron distintos middlewares para la transferencia de datos entre peers, por un lado, tenemos gRPC que considero es una buena opción para hacer llamados a funciones en un ordenador remoto. Como en un principio se tenía desarrollado el servidor de arranque en JavaScript fue una buena opción para romper las limitaciones entre los lenguajes. Se utiliza sockets para la comunicación entre el cliente/servidor y enviar mensajes como peticiones de archivo y por último se tiene MOM pensado para la transferencia del archivo, aunque no se logró que enviara el archivo y se descargara en el peer origen, se tiene una simulación que envía un mensaje del peer que posee el archivo al peer origen, en este caso considero que es buena opción usar MOM, ya que el peer puede enviar el archivo totalmente, y si por algún casual el peer consumidor pierde conexión, pueda recibir el archivo una vez vuelva a estar en línea.
+3. La carpeta Cliente, el cliente se comunica para realizar cualquiera de las funcionalidades del sistema, subir un archivo, descargar un archivo o listar los archivos disponibles en el sistema. El usuario tambien inicializa los servicios MOM y gRPC, de igual manera para llamar tanto funciones en el sistema como recibir y enviar archivos.
+
 
 Se definieron los siguientes puertos para el uso de cada uno de los middlewares:
-* **8000** utilizado para la transferencia por sockets.
-* **8001** utilizado para la transferencia por gRPC.
-* **5672** utilizado para la transferencia por MOM.
+* **8000** utilizado para sockets.
+* **8001** utilizado para gRPC.
+* **5672** utilizado para MOM.
 
 *******
 
@@ -85,7 +82,7 @@ Se definieron los siguientes puertos para el uso de cada uno de los middlewares:
   
 #### ***4. Descripción de como configurar y como ejecutar el proyecto***
 
-Para ejecutar el código es necesario crear mínimo dos instancias en AWS, para un efecto práctico y que se pueda ver digamos de manera entretenida el reto, es recomendable usar cuatro instancias en AWS. Para un buen funcionamiento seguir por favor las siguientes instrucciones:
+Para ejecutar el código es necesario crear mínimo tres instancias en AWS, esto para cada una de las interfaces, Cliente, DataNode, Server. Para un buen funcionamiento seguir por favor las siguientes instrucciones:
 
 Crear dos (la cantidad deseada) instancias de EC2 con OS Ubuntu 20.04, recomendable usar el mismo grupo de seguridad para las instancias creadas para no configurar cada una manualmente. Una vez la instancia este creada, ir a los grupos de seguridad y editar las reglas de entrada, vamos a habilitar los siguientes puertos, cada uno de tipo TCP y permitiendo origen desde 0.0.0.0/0:
   * 8000
@@ -156,13 +153,3 @@ La otra opción que tiene la interfaz, en este caso el número 2, es para listar
 
 Por último, si introducimos la opción 0 abandonaremos la red, pero antes de abandonarla el peer notifica a sus conexiones que saldrá de la red, por lo tanto, se tienen que reestructurar.
 
-
-*******
-
-<div id="referencias"/>
-  
-### ***referencias:***
-* https://www.rabbitmq.com/tutorials/tutorial-one-python
-* https://grpc.io/docs/languages/python/basics/
-* https://github.com/jcmtya/st0263-20241/tree/main/Laboratorio%20N1-RPC
-* https://interactivavirtual.eafit.edu.co/d2l/le/content/153212/viewContent/807959/View
